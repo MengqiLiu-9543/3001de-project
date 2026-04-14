@@ -1,0 +1,203 @@
+diff --git a/data_gatherer/data_gatherer.py b/data_gatherer/data_gatherer.py
+index 4a3c448..ca4ff2c 100644
+--- a/data_gatherer/data_gatherer.py
++++ b/data_gatherer/data_gatherer.py
+@@ -118,7 +118,11 @@ class DataGatherer:
+         self.download_data_for_description_generation = download_data_for_description_generation
+ 
+         entire_document_models = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash-exp", "gemini-2.0-flash",
+-                                  "gemini-2.5-flash", "gpt-4o", "gpt-4o-mini", "gpt-5-nano", "gpt-5-mini", "gpt-5"]
++                                  "gemini-2.5-flash", "gpt-4o", "gpt-4o-mini", "gpt-5-nano", "gpt-5-mini", "gpt-5",
++                                  "moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k",
++                                  "kimi-k2-0711-preview", "kimi-k2-0905-preview",
++                                  "kimi-k2.5", "kimi-k2-turbo-preview",
++                                  "kimi-k2-thinking", "kimi-k2-thinking-turbo", "kimi-latest"]
+         self.full_document_read = llm_name in entire_document_models and process_entire_document
+         self.llm = llm_name
+ 
+diff --git a/data_gatherer/env.py b/data_gatherer/env.py
+index a5dc697..d7a1037 100644
+--- a/data_gatherer/env.py
++++ b/data_gatherer/env.py
+@@ -18,4 +18,6 @@ DATA_GATHERER_USER_NAME: str = os.getenv("DATA_GATHERER_USER_NAME")
+ CACHE_BASE_DIR: str = os.getenv("XDG_CACHE_HOME") or os.path.join(os.path.expanduser("~"), ".cache", "data_gatherer/")
+ GH_TOKEN: str = os.getenv("GH_TOKEN")
+ GITHUB_USERNAME: str = os.getenv("GITHUB_USERNAME")
+-NCBI_API_KEY: str = os.getenv("NCBI_API_KEY")
+\ No newline at end of file
++NCBI_API_KEY: str = os.getenv("NCBI_API_KEY")
++MOONSHOT_API_KEY: str = os.getenv("MOONSHOT_API_KEY") or os.getenv("OPENAI_API_KEY")
++MOONSHOT_BASE_URL: str = os.getenv("MOONSHOT_BASE_URL") or os.getenv("OPENAI_BASE_URL") or "https://api.moonshot.cn/v1"
+\ No newline at end of file
+diff --git a/data_gatherer/llm/llm_client.py b/data_gatherer/llm/llm_client.py
+index 86d0ab5..570f549 100644
+--- a/data_gatherer/llm/llm_client.py
++++ b/data_gatherer/llm/llm_client.py
+@@ -9,7 +9,7 @@ import google.generativeai as genai
+ from portkey_ai import Portkey
+ from json_repair import repair_json
+ from data_gatherer.prompts.prompt_manager import PromptManager
+-from data_gatherer.env import PORTKEY_GATEWAY_URL, PORTKEY_API_KEY, PORTKEY_ROUTE, PORTKEY_CONFIG, OLLAMA_CLIENT, GPT_API_KEY, GEMINI_KEY, DATA_GATHERER_USER_NAME
++from data_gatherer.env import PORTKEY_GATEWAY_URL, PORTKEY_API_KEY, PORTKEY_ROUTE, PORTKEY_CONFIG, OLLAMA_CLIENT, GPT_API_KEY, GEMINI_KEY, DATA_GATHERER_USER_NAME, MOONSHOT_API_KEY, MOONSHOT_BASE_URL
+ from data_gatherer.llm.response_schema import *
+ from data_gatherer.llm.batch_storage import BatchStorageManager, BatchRequestBuilder
+ 
+@@ -28,7 +28,11 @@ class LLMClient_dev:
+         
+         # Determine full document read capability
+         entire_document_models = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash-exp", "gemini-2.0-flash",
+-                                  "gemini-2.5-flash", "gpt-4o", "gpt-4o-mini", "gpt-5-nano", "gpt-5-mini", "gpt-5"]
++                                  "gemini-2.5-flash", "gpt-4o", "gpt-4o-mini", "gpt-5-nano", "gpt-5-mini", "gpt-5",
++                                  "moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k",
++                                  "kimi-k2-0711-preview", "kimi-k2-0905-preview",
++                                  "kimi-k2.5", "kimi-k2-turbo-preview",
++                                  "kimi-k2-thinking", "kimi-k2-thinking-turbo", "kimi-latest"]
+         self.full_document_read = model in entire_document_models
+         
+         self._initialize_client(model)
+@@ -68,6 +72,10 @@ class LLMClient_dev:
+             self.logger.debug(f"Initializing OpenAI client for model: {model}")
+             self.llm_client = OpenAI(api_key=GPT_API_KEY)
+ 
++        elif model.startswith('moonshot') or model.startswith('kimi'):
++            self.logger.debug(f"Initializing Moonshot (Kimi) client for model: {model} at {MOONSHOT_BASE_URL}")
++            self.llm_client = OpenAI(api_key=MOONSHOT_API_KEY, base_url=MOONSHOT_BASE_URL)
++
+         elif model.startswith('gemini') and not self.use_portkey:
+             self.logger.debug(f"Initializing direct Gemini client for model: {model}")
+             genai.configure(api_key=GEMINI_KEY)
+@@ -148,6 +156,8 @@ class LLMClient_dev:
+         self.logger.info(f"Calling {self.model} with prompt length {len(content)}")
+         if self.model.startswith('gpt'):
+             return self._call_openai(content, **kwargs)
++        elif self.model.startswith('moonshot') or self.model.startswith('kimi'):
++            return self._call_moonshot(content, temperature=temperature, **kwargs)
+         elif self.model.startswith('gemini'):
+             if self.use_portkey:
+                 return self._call_portkey_gemini(content, **kwargs)
+@@ -180,6 +190,42 @@ class LLMClient_dev:
+         )
+         return response.output
+ 
++    def _call_moonshot(self, messages, temperature=0.0, **kwargs):
++        """Call Kimi (Moonshot) via OpenAI-compatible chat completions endpoint."""
++        self.logger.info(f"Calling Moonshot (Kimi) — model={self.model}")
++        if self.save_prompts:
++            self.prompt_manager.save_prompt(prompt_id='abc', prompt_content=messages)
++        # Reasoning models (k2.5, thinking variants) only accept temperature=1
++        if self.model == 'kimi-k2.5' or 'thinking' in self.model:
++            temperature = 1
++        # Some DG templates use 'developer' role (OpenAI Responses API style).
++        # Moonshot chat.completions only accepts system/user/assistant.
++        normalized_messages = []
++        for m in messages:
++            if isinstance(m, dict) and m.get("role") == "developer":
++                normalized_messages.append({**m, "role": "system"})
++            else:
++                normalized_messages.append(m)
++        # No response_format — see make_llm_call comment about json_object
++        # mode wrapping arrays into single objects.
++        response = self.llm_client.chat.completions.create(
++            model=self.model,
++            messages=normalized_messages,
++            temperature=temperature,
++        )
++        # Track token usage at module-level so external runners can read it.
++        try:
++            import data_gatherer.llm.llm_client as _mod
++            if not hasattr(_mod, '_usage_counter'):
++                _mod._usage_counter = {'calls': 0, 'prompt_tokens': 0, 'completion_tokens': 0}
++            u = response.usage
++            _mod._usage_counter['calls'] += 1
++            _mod._usage_counter['prompt_tokens'] += getattr(u, 'prompt_tokens', 0) or 0
++            _mod._usage_counter['completion_tokens'] += getattr(u, 'completion_tokens', 0) or 0
++        except Exception:
++            pass
++        return response.choices[0].message.content
++
+     def _call_gemini(self, messages, temperature=0.0, **kwargs):
+         self.logger.info(f"Calling Gemini")
+         if self.save_prompts:
+@@ -267,6 +313,45 @@ class LLMClient_dev:
+             else:
+                 return self.api_call(messages, response_format={}, temperature=temperature)
+                 
++        elif 'moonshot' in self.model or 'kimi' in self.model:
++            self.logger.info(f"Moonshot (Kimi) chat.completions call — model={self.model}, FDR={full_document_read}")
++            # Reasoning models (k2.5, thinking variants) only accept temperature=1
++            if self.model == 'kimi-k2.5' or 'thinking' in self.model:
++                temperature = 1
++            # Some DG templates use 'developer' role (OpenAI Responses API style).
++            # Moonshot chat.completions only accepts system/user/assistant.
++            normalized_messages = []
++            for m in messages:
++                if isinstance(m, dict) and m.get("role") == "developer":
++                    normalized_messages.append({**m, "role": "system"})
++                else:
++                    normalized_messages.append(m)
++            # NOTE: we deliberately do NOT set response_format={"type":
++            # "json_object"} because that mode forces the output into a JSON
++            # object wrapper, and DG's prompt templates ask the LLM to emit a
++            # bare JSON array. We let the prompt engineer the shape instead
++            # and rely on json_repair downstream for robustness.
++            kwargs_kimi = {
++                "model": self.model,
++                "messages": normalized_messages,
++                "temperature": temperature,
++            }
++            response = self.llm_client.chat.completions.create(**kwargs_kimi)
++            text = response.choices[0].message.content
++            # Track token usage for external runners.
++            try:
++                import data_gatherer.llm.llm_client as _mod
++                if not hasattr(_mod, '_usage_counter'):
++                    _mod._usage_counter = {'calls': 0, 'prompt_tokens': 0, 'completion_tokens': 0}
++                u = response.usage
++                _mod._usage_counter['calls'] += 1
++                _mod._usage_counter['prompt_tokens'] += getattr(u, 'prompt_tokens', 0) or 0
++                _mod._usage_counter['completion_tokens'] += getattr(u, 'completion_tokens', 0) or 0
++            except Exception:
++                pass
++            self.logger.debug(f"Moonshot raw text ({len(text)} chars): {text[:500]}")
++            return text
++
+         elif 'gpt' in self.model:
+             response = None
+             if 'gpt-5' in self.model:
+@@ -393,8 +478,8 @@ class LLMClient_dev:
+             self.logger.debug(f"Final result for {self.model}: {result}")
+             return result
+                 
+-        elif 'gpt' in self.model:
+-            self.logger.debug(f"Processing GPT model response")
++        elif 'gpt' in self.model or 'moonshot' in self.model or 'kimi' in self.model:
++            self.logger.debug(f"Processing GPT/Moonshot model response")
+             self.logger.debug(f"raw_response type: {type(raw_response)}, length: {len(str(raw_response))}, response: {raw_response}")
+             if from_batch_mode:
+                 self.logger.debug(f"From batch mode, raw_response type: {type(raw_response)}, length: {len(raw_response)}")
+diff --git a/data_gatherer/parser/base_parser.py b/data_gatherer/parser/base_parser.py
+index acf1674..72a4a9e 100644
+--- a/data_gatherer/parser/base_parser.py
++++ b/data_gatherer/parser/base_parser.py
+@@ -46,7 +46,11 @@ class LLMParser(ABC):
+ 
+         self.llm_name = llm_name
+         entire_document_models = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-2.0-flash-exp", "gemini-2.0-flash",
+-                                  "gemini-2.5-flash", "gpt-4o", "gpt-4o-mini", "gpt-5-nano", "gpt-5-mini", "gpt-5"]
++                                  "gemini-2.5-flash", "gpt-4o", "gpt-4o-mini", "gpt-5-nano", "gpt-5-mini", "gpt-5",
++                                  "moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k",
++                                  "kimi-k2-0711-preview", "kimi-k2-0905-preview",
++                                  "kimi-k2.5", "kimi-k2-turbo-preview",
++                                  "kimi-k2-thinking", "kimi-k2-thinking-turbo", "kimi-latest"]
+ 
+         self.full_document_read = full_document_read and self.llm_name in entire_document_models
+         self.title = None
+@@ -292,7 +296,7 @@ Files:
+         static_prompt = self.prompt_manager.load_prompt(prompt_name)
+         n_tokens_static_prompt = self.count_tokens(static_prompt, model)
+ 
+-        if 'gpt' in model:
++        if 'gpt' in model or 'moonshot' in model or 'kimi' in model:
+             tokens_cnt = self.count_tokens(content, model) + n_tokens_static_prompt
+             if tokens_cnt > int(1.25 * 128000):
+                 return self.extract_datasets_info_from_chunks(

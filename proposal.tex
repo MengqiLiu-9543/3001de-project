@@ -1,0 +1,129 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{parskip}
+
+\hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue}
+\titleformat{\section}{\large\bfseries}{}{0em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{}{0em}{}
+
+\title{\textbf{Project Proposal: Data Discovery in Scientific Publications}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-2em}
+
+\begin{tabular}{@{}ll}
+\textbf{Course:} & Data Engineering --- Spring 2026 \\
+\textbf{Project:} & Project 8 --- Data Discovery in Scientific Publications \\
+\textbf{Team Name:} & rawdata \\
+\textbf{Team Members:} & Mengqi Liu (ml9543), Jintong Li (jl13640), Bo Yu (by2566) \\
+\end{tabular}
+
+\vspace{1em}
+\hrule
+\vspace{1em}
+
+\section{1. Problem Statement}
+
+Researchers, librarians, and data curators spend significant time manually identifying dataset references embedded in scientific publications. These references are scattered across data availability statements, figure captions, inline text, and supplementary materials, making manual extraction labor-intensive and error-prone. Automating this process is essential for improving dataset discoverability and supporting reproducible research.
+
+This project aims to build an automated dataset reference extraction pipeline using \textbf{DocETL}, a general-purpose declarative LLM-powered data processing framework, and rigorously compare it against \textbf{DataGatherer}, a purpose-built tool designed specifically for this task.
+
+\section{2. Approach}
+
+Our approach consists of four phases:
+
+\subsection{Phase 1: Understanding the Baseline (DataGatherer)}
+
+We will first study and run DataGatherer on the provided benchmarks to establish a baseline. DataGatherer supports two extraction strategies:
+
+\begin{itemize}[nosep]
+    \item \textbf{Full-Document Read (FDR):} Feeds the entire preprocessed HTML of a paper to an LLM for extraction.
+    \item \textbf{Retrieve-Then-Read (RTR):} Uses rule-based CSS/XPath selectors to locate relevant sections (e.g., Data Availability Statements), then extracts references from those sections only.
+\end{itemize}
+
+We will run both strategies on the \textbf{DataRef-EXP} and \textbf{DataRef-REV} benchmarks and record accuracy, coverage, and cost metrics.
+
+\subsection{Phase 2: Building the DocETL Pipeline}
+
+We will design and implement a DocETL pipeline that replicates the extraction task. The pipeline will consist of the following operators:
+
+\begin{enumerate}[nosep]
+    \item \textbf{Document Ingestion:} Parse scientific papers (PDF/HTML) into text.
+    \item \textbf{Split / Gather:} Chunk long documents into manageable segments while preserving context across chunks (e.g., a dataset mention in the text may refer to a URL in the references section).
+    \item \textbf{Map (Extraction):} Apply LLM prompts to each chunk to extract structured dataset references in the format \texttt{\{dataset\_identifier, repository, url\}}.
+    \item \textbf{Resolve (Deduplication):} Merge duplicate or overlapping references across chunks and across documents.
+    \item \textbf{Filter:} Remove low-confidence or invalid extractions.
+\end{enumerate}
+
+We will iteratively refine the pipeline prompts and operator configurations to maximize extraction quality.
+
+\subsection{Phase 3: Evaluation and Comparison}
+
+We will evaluate both systems on the same benchmarks using the following dimensions:
+
+\noindent
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Dimension} & \textbf{Metrics} \\
+\midrule
+Accuracy & Precision, Recall, F1-score \\
+Coverage & Number of unique datasets discovered per paper \\
+Cost & Total LLM tokens consumed, estimated API cost (\$) \\
+Engineering Effort & Lines of code, configuration complexity, development time \\
+Robustness & Performance across different paper formats (HTML vs.\ PDF) and disciplines \\
+\bottomrule
+\end{tabularx}
+
+We will also perform a detailed \textbf{failure case analysis} to identify where each method succeeds and fails.
+
+\subsection{Phase 4: Critical Analysis and Report}
+
+We will write a comprehensive report discussing:
+
+\begin{itemize}[nosep]
+    \item The tradeoffs between general-purpose declarative pipelines (DocETL) and specialized tools (DataGatherer).
+    \item Strengths and limitations of each approach.
+    \item Recommendations for practitioners choosing between the two paradigms.
+    \item Potential improvements and future directions.
+\end{itemize}
+
+\section{3. Data Sources}
+
+\begin{itemize}[nosep]
+    \item \textbf{DataRef-EXP Benchmark:} A curated set of scientific papers with ground-truth dataset references, provided by the DataGatherer authors (available on Zenodo: \url{https://doi.org/10.5281/zenodo.15549086}).
+    \item \textbf{DataRef-REV Benchmark:} A second benchmark dataset from the same source, covering a different set of publications.
+    \item Both benchmarks contain scientific papers from multiple disciplines with annotated dataset identifiers, repositories, and URLs.
+\end{itemize}
+
+\section{4. Milestones}
+
+\noindent
+\begin{tabularx}{\textwidth}{lp{3.8cm}X}
+\toprule
+\textbf{Date} & \textbf{Milestone} & \textbf{Deliverable} \\
+\midrule
+Mar 9 -- Mar 22 & Environment setup \& data acquisition & DataGatherer and DocETL installed; benchmark datasets downloaded and explored \\
+Mar 23 -- Apr 1 & Run DataGatherer baseline & Baseline results (FDR and RTR) on both benchmarks with metrics recorded \\
+Apr 2 -- Apr 10 & Design \& implement DocETL pipeline v1 & Working DocETL pipeline that processes papers and outputs structured references \\
+Apr 11 -- Apr 17 & Iterate \& optimize DocETL pipeline & Refined prompts and operator configurations; improved extraction quality \\
+Apr 18 -- Apr 23 & Full evaluation \& comparison & Complete evaluation results across all dimensions; failure case analysis \\
+Apr 24 -- Apr 30 & Report writing \& presentation & Final report, code repository with reproducibility instructions, presentation slides \\
+\bottomrule
+\end{tabularx}
+
+\section{5. References}
+
+\begin{enumerate}[nosep]
+    \item Shankar, S., et al. ``DocETL: Agentic Query Rewriting and Evaluation for Complex Document Processing.'' \textit{Proceedings of the VLDB Endowment} 18.9 (2025): 3035--3048.
+    \item Marini, P., et al. ``Data Gatherer: LLM-powered Dataset Reference Extraction from Scientific Literature.'' \textit{Proceedings of the Fifth Workshop on Scholarly Document Processing (SDP 2025)}. 2025.
+\end{enumerate}
+
+\end{document}

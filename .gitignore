@@ -1,0 +1,48 @@
+# Secrets — NEVER commit
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+.python-version
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor / Tooling
+.vscode/
+.idea/
+*.swp
+.ipynb_checkpoints/
+.claude/
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+
+# Vendored repos (cloned separately by users)
+data-gatherer/
+
+# Cached papers (regenerate with scripts/fetch_papers.py)
+data/papers/
+
+# Debug logs
+logs/
+
+# DocETL intermediate caches
+outputs/docetl_intermediates*/
+
+# Old smoke-test artifacts (kept locally for history but not pushed)
+outputs/*_PMC6141466.*
+outputs/*_k25_*
+outputs/*_raw.json
+outputs/sample.json
+outputs/OVERNIGHT_RESULTS.md

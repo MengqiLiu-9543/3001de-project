@@ -1,0 +1,481 @@
+{
+  "categories": {
+    "both_hit": [
+      {
+        "pmcid": "PMC11252349",
+        "ident": "pxd053567",
+        "gt_repo": "PRIDE",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11425778",
+        "ident": "massive.ucsd.edu",
+        "gt_repo": "MassIVE",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11320025",
+        "ident": "proteomecentral.proteomexchange.org/cgi/getdataset?id=pxd052949",
+        "gt_repo": "ProteomeXchange",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11066909",
+        "ident": "proteomecentral.proteomexchange.org",
+        "gt_repo": "ProteomeXchange",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11352417",
+        "ident": "proteomecentral.proteomexchange.org",
+        "gt_repo": "ProteomeXchange",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC10855131",
+        "ident": "proteomecentral.proteomexchange.org/cgi/getdataset?id=pxd047284",
+        "gt_repo": "ProteomeXchange",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11129317",
+        "ident": "pdc000234",
+        "gt_repo": "PDC",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11129317",
+        "ident": "pdc000127",
+        "gt_repo": "PDC",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11129317",
+        "ident": "pdc000204",
+        "gt_repo": "PDC",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11129317",
+        "ident": "pdc000221",
+        "gt_repo": "PDC",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11129317",
+        "ident": "pdc000198",
+        "gt_repo": "PDC",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11129317",
+        "ident": "pdc000110",
+        "gt_repo": "PDC",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11129317",
+        "ident": "pdc000270",
+        "gt_repo": "PDC",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11129317",
+        "ident": "pdc000125",
+        "gt_repo": "PDC",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11129317",
+        "ident": "pdc000153",
+        "gt_repo": "PDC",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11129317",
+        "ident": "pxd043612",
+        "gt_repo": "PRIDE",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11423856",
+        "ident": "ipx0004230000",
+        "gt_repo": "iProX",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11062922",
+        "ident": "massive.ucsd.edu",
+        "gt_repo": "MassIVE",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11062922",
+        "ident": "7zwe",
+        "gt_repo": "PDB",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11062922",
+        "ident": "7a4q",
+        "gt_repo": "PDB",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11062922",
+        "ident": "7zwg",
+        "gt_repo": "PDB",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11208500",
+        "ident": "proteomecentral.proteomexchange.org",
+        "gt_repo": "ProteomeXchange",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC10972747",
+        "ident": "ega-archive.org",
+        "gt_repo": "EGA",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC10982990",
+        "ident": "phs003416",
+        "gt_repo": "dbGaP",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC10982990",
+        "ident": "gse241673",
+        "gt_repo": "GEO",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC5313262",
+        "ident": "phs001249",
+        "gt_repo": "dbGaP",
+        "dg_rtr_hit": false,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC4836692",
+        "ident": "gse60052",
+        "gt_repo": "GEO",
+        "dg_rtr_hit": false,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC4836692",
+        "ident": "phs001083",
+        "gt_repo": "dbGaP",
+        "dg_rtr_hit": false,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC6141466",
+        "ident": "phs001049",
+        "gt_repo": "dbGaP",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC6141466",
+        "ident": "prjna306801",
+        "gt_repo": "SRA",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11061608",
+        "ident": "srp052896",
+        "gt_repo": "SRA",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11061608",
+        "ident": "phs001823",
+        "gt_repo": "dbGaP",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11061608",
+        "ident": "19q1",
+        "gt_repo": "DepMap",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": false,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11061608",
+        "ident": "18q3",
+        "gt_repo": "DepMap",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": false,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11061608",
+        "ident": "ccle2019",
+        "gt_repo": "DepMap",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": false,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11061608",
+        "ident": "data.broadinstitute.org",
+        "gt_repo": "Broad",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": false,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC5460863",
+        "ident": "phs001366",
+        "gt_repo": "dbGaP",
+        "dg_rtr_hit": false,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC9506422",
+        "ident": "central.proteomexchange.org/cgi/getdataset?id=pxd029821",
+        "gt_repo": "PRIDE",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC9506422",
+        "ident": "central.proteomexchange.org/cgi/getdataset?id=pxd029805",
+        "gt_repo": "PRIDE",
+        "dg_rtr_hit": true,
+        "dg_fdr_hit": true,
+        "docetl_hit": true
+      }
+    ],
+    "docetl_only": [
+      {
+        "pmcid": "PMC11129317",
+        "ident": "10.17632/bvdn865y9c.1",
+        "gt_repo": "Mendeley",
+        "dg_rtr_hit": false,
+        "dg_fdr_hit": false,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11129317",
+        "ident": "10.17632/3wfxrz66w2.1",
+        "gt_repo": "Mendeley",
+        "dg_rtr_hit": false,
+        "dg_fdr_hit": false,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC4915822",
+        "ident": "ega-archive.org",
+        "gt_repo": "EGA",
+        "dg_rtr_hit": false,
+        "dg_fdr_hit": false,
+        "docetl_hit": true
+      }
+    ],
+    "dg_only": [],
+    "both_missed": [
+      {
+        "pmcid": "PMC11320025",
+        "ident": "astrazenecagroup-dt.pharmacm.com/dt/home",
+        "gt_repo": "AstraZeneca",
+        "dg_rtr_hit": false,
+        "dg_fdr_hit": false,
+        "docetl_hit": false
+      },
+      {
+        "pmcid": "PMC11320025",
+        "ident": "6077-6129",
+        "gt_repo": "CPTAC",
+        "dg_rtr_hit": false,
+        "dg_fdr_hit": false,
+        "docetl_hit": false
+      },
+      {
+        "pmcid": "PMC11208500",
+        "ident": "idop_040",
+        "gt_repo": "OPEN",
+        "dg_rtr_hit": false,
+        "dg_fdr_hit": false,
+        "docetl_hit": false
+      },
+      {
+        "pmcid": "PMC8628860",
+        "ident": "ega-archive.org",
+        "gt_repo": "EGA",
+        "dg_rtr_hit": false,
+        "dg_fdr_hit": false,
+        "docetl_hit": false
+      },
+      {
+        "pmcid": "PMC11061608",
+        "ident": "pmc.ncbi.nlm.nih.gov/articles/instance/7339254/bin/nihms1569324-supplement-ts2.xlsx",
+        "gt_repo": "",
+        "dg_rtr_hit": false,
+        "dg_fdr_hit": false,
+        "docetl_hit": false
+      }
+    ]
+  },
+  "counts": {
+    "both_hit": 39,
+    "docetl_only": 3,
+    "dg_only": 0,
+    "both_missed": 5
+  },
+  "false_positives": {
+    "dg_rtr": [
+      {
+        "pmcid": "PMC11352417",
+        "ident": "jpst002506",
+        "pred_repo": "repository.jpostdb.org"
+      }
+    ],
+    "dg_fdr": [
+      {
+        "pmcid": "PMC11015306",
+        "ident": "pxd042991",
+        "pred_repo": "PRIDE"
+      },
+      {
+        "pmcid": "PMC11066909",
+        "ident": "gse10327",
+        "pred_repo": "GEO"
+      },
+      {
+        "pmcid": "PMC11066909",
+        "ident": "gse122077",
+        "pred_repo": "GEO"
+      },
+      {
+        "pmcid": "PMC11066909",
+        "ident": "gse70678",
+        "pred_repo": "GEO"
+      },
+      {
+        "pmcid": "PMC11066909",
+        "ident": "gse73038",
+        "pred_repo": "GEO"
+      },
+      {
+        "pmcid": "PMC11066909",
+        "ident": "pdc000180",
+        "pred_repo": "PDC"
+      }
+    ],
+    "docetl": [
+      {
+        "pmcid": "PMC11015306",
+        "ident": "pxd042991",
+        "pred_repo": "PRIDE"
+      },
+      {
+        "pmcid": "PMC11066909",
+        "ident": "gse10327",
+        "pred_repo": "GEO"
+      },
+      {
+        "pmcid": "PMC11066909",
+        "ident": "gse122077",
+        "pred_repo": "GEO"
+      },
+      {
+        "pmcid": "PMC11066909",
+        "ident": "gse70678",
+        "pred_repo": "GEO"
+      },
+      {
+        "pmcid": "PMC11066909",
+        "ident": "gse73038",
+        "pred_repo": "GEO"
+      },
+      {
+        "pmcid": "PMC11066909",
+        "ident": "pdc.cancer.gov/pdc/browse/(pdc000180)",
+        "pred_repo": "PDC"
+      },
+      {
+        "pmcid": "PMC11208500",
+        "ident": "10.5281/zenodo.10854544",
+        "pred_repo": "Zenodo"
+      },
+      {
+        "pmcid": "PMC8628860",
+        "ident": "gse131907",
+        "pred_repo": "GEO"
+      },
+      {
+        "pmcid": "PMC8628860",
+        "ident": "phs001713",
+        "pred_repo": "dbGaP"
+      }
+    ]
+  }
+}

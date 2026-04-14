@@ -1,0 +1,115 @@
+default_model: openai/kimi-k2-0905-preview
+
+system_prompt:
+  dataset_description: scientific publications from PubMed Central
+  persona: a biomedical data curator identifying dataset references in research papers
+
+datasets:
+  papers:
+    type: file
+    path: /Users/liuliuliu/Downloads/3001deproject/data/papers/corpus.json
+
+operations:
+  - name: extract_dataset_references
+    type: map
+    model: openai/kimi-k2-0905-preview
+    litellm_completion_kwargs:
+      temperature: 0
+    output:
+      schema:
+        references: "list[{dataset_identifier: string, repository: string, url: string, source_section: string, evidence: string}]"
+    prompt: |
+      You are reading a scientific paper. Extract EVERY reference to a dataset
+      that the authors used, produced, or deposited — whether mentioned in the
+      data availability statement, the methods section, a key resource table,
+      a supplementary material section, or the main text.
+
+      A dataset reference is ANY concrete accession ID, DOI, or unique URL
+      pointing at a data record in a repository.
+
+      ---
+
+      ## Known repositories and identifier patterns (non-exhaustive)
+
+      NCBI family:
+        - GEO            → GSE*, GSM*, GDS*, GPL*
+        - SRA            → SRR*, SRX*, SRP*, PRJNA* (BioProject also)
+        - BioProject     → PRJNA*, PRJEB*, PRJDB*
+        - dbGaP          → phs*  (e.g. phs001049, phs001049.v1.p1)
+        - PDB            → 4-char codes like 4hhb, 7a4q, 7zwe (case-insensitive)
+
+      Proteomics repositories:
+        - PRIDE                     → PXD*
+        - ProteomeXchange           → PXD*, RPX*
+        - MassIVE                   → MSV*
+        - iProX                     → IPX*
+        - jPOST                     → JPST*
+        - Proteomic Data Commons (PDC) → PDC\d{6}, e.g. PDC000234, PDC000127
+        - PanoramaPublic             → Panorama*
+
+      Cancer genomics and clinical:
+        - CPTAC / CPTAC Assay Portal → study / assay IDs, e.g. CPTAC S-numbers
+        - TCGA                       → TCGA-* project codes
+        - DepMap / Dependency Map    → public release versions (e.g. 24Q2), portal IDs
+        - ICGC                       → DCC* project codes
+
+      European / world:
+        - EGA            → EGAS* (studies), EGAD* (datasets)
+        - ArrayExpress   → E-MTAB-*, E-GEOD-*
+        - ENA            → PRJEB*, ERP*, ERS*
+        - DDBJ           → DRA*, PRJDB*
+        - BioStudies     → S-BSST*, S-BIAD*
+
+      Generic DOI-backed repositories:
+        - Zenodo         → 10.5281/zenodo.*
+        - Figshare       → 10.6084/m9.figshare.*
+        - Mendeley Data  → 10.17632/*
+        - Dryad          → 10.5061/dryad.*
+        - OSF            → 10.17605/osf.io/*
+
+      ## Rules
+
+      1. Extract an item ONLY if it has a concrete dataset identifier OR a
+         direct URL that clearly points to a data record (not a tool, not a
+         figure in THIS paper, not a table caption in THIS paper).
+      2. Search the WHOLE document: data availability, methods, key resource
+         tables, supplementary material, results captions. Do not stop at the
+         data availability statement.
+      3. If a paper reuses public datasets, those count — the task is "every
+         dataset referenced", not "every dataset the authors deposited".
+      4. `repository` must be the short canonical name from the list above
+         (GEO, SRA, BioProject, dbGaP, PDB, PRIDE, ProteomeXchange, MassIVE,
+         iProX, jPOST, PDC, PanoramaPublic, CPTAC, TCGA, DepMap, ICGC, EGA,
+         ArrayExpress, ENA, DDBJ, BioStudies, Zenodo, Figshare, Mendeley,
+         Dryad, OSF, Other).
+      5. `url` should be a direct URL to the record if the paper gives one,
+         otherwise the best-known canonical landing-page URL for that
+         accession. Use empty string only as last resort.
+      6. `source_section` is one of: data_availability, methods,
+         supplementary_material, key_resource_table, results, other.
+      7. `evidence` is a <=200-char quote from the paper containing the
+         identifier or the sentence it appears in. Keep it verbatim (you may
+         truncate whitespace but do not paraphrase).
+      8. DO NOT invent identifiers that are not literally in the paper text.
+      9. Return an empty list if the paper genuinely does not reference any
+         dataset.
+
+      ---
+
+      Paper title: {{ input.paper_title }}
+      PMC URL: {{ input.url }}
+
+      --- BEGIN PAPER TEXT ---
+      {{ input.paper_text }}
+      --- END PAPER TEXT ---
+
+pipeline:
+  steps:
+    - name: extract_step
+      input: papers
+      operations:
+        - extract_dataset_references
+  output:
+    type: file
+    path: /Users/liuliuliu/Downloads/3001deproject/outputs/docetl_v1_EXP_raw.json
+    intermediate_dir: /Users/liuliuliu/Downloads/3001deproject/outputs/docetl_intermediates_v1
