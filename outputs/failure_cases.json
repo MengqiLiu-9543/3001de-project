@@ -316,22 +316,6 @@
     ],
     "docetl_only": [
       {
-        "pmcid": "PMC11129317",
-        "ident": "10.17632/bvdn865y9c.1",
-        "gt_repo": "Mendeley",
-        "dg_rtr_hit": false,
-        "dg_fdr_hit": false,
-        "docetl_hit": true
-      },
-      {
-        "pmcid": "PMC11129317",
-        "ident": "10.17632/3wfxrz66w2.1",
-        "gt_repo": "Mendeley",
-        "dg_rtr_hit": false,
-        "dg_fdr_hit": false,
-        "docetl_hit": true
-      },
-      {
         "pmcid": "PMC4915822",
         "ident": "ega-archive.org",
         "gt_repo": "EGA",
@@ -354,6 +338,22 @@
         "pmcid": "PMC11320025",
         "ident": "6077-6129",
         "gt_repo": "CPTAC",
+        "dg_rtr_hit": false,
+        "dg_fdr_hit": false,
+        "docetl_hit": false
+      },
+      {
+        "pmcid": "PMC11129317",
+        "ident": "10.17632/bvdn865y9c.1",
+        "gt_repo": "Mendeley",
+        "dg_rtr_hit": false,
+        "dg_fdr_hit": false,
+        "docetl_hit": false
+      },
+      {
+        "pmcid": "PMC11129317",
+        "ident": "10.17632/3wfxrz66w2.1",
+        "gt_repo": "Mendeley",
         "dg_rtr_hit": false,
         "dg_fdr_hit": false,
         "docetl_hit": false
@@ -386,9 +386,9 @@
   },
   "counts": {
     "both_hit": 39,
-    "docetl_only": 3,
+    "docetl_only": 1,
     "dg_only": 0,
-    "both_missed": 5
+    "both_missed": 7
   },
   "false_positives": {
     "dg_rtr": [
@@ -458,23 +458,18 @@
       },
       {
         "pmcid": "PMC11066909",
-        "ident": "pdc.cancer.gov/pdc/browse/(pdc000180)",
+        "ident": "pdc.cancer.gov/pdc/browse/filters?study_id=pdc000180",
         "pred_repo": "PDC"
       },
       {
-        "pmcid": "PMC11208500",
-        "ident": "10.5281/zenodo.10854544",
-        "pred_repo": "Zenodo"
+        "pmcid": "PMC8628860",
+        "ident": "data.humantumoratlas.org",
+        "pred_repo": "HTAN Data Portal"
       },
       {
         "pmcid": "PMC8628860",
-        "ident": "gse131907",
-        "pred_repo": "GEO"
-      },
-      {
-        "pmcid": "PMC8628860",
-        "ident": "phs001713",
-        "pred_repo": "dbGaP"
+        "ident": "mskcc.ionpath.com/tracker",
+        "pred_repo": "Ionpath Tracker"
       }
     ]
   }

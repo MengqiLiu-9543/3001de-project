@@ -1,11 +1,6 @@
 {
   "pipeline_yaml": "docetl_pipeline/extract.yaml",
   "n_papers": 21,
-  "total_predictions": 33,
-  "wall_time_s": 28.6,
-  "llm_calls": 21,
-  "prompt_tokens": 442443,
-  "completion_tokens": 5000,
-  "approx_cost_usd": 0.259,
-  "cost_note": "prompt tokens approximated via tiktoken from paper_text + prompt template; completion tokens from DocETL output size"
+  "total_predictions": 34,
+  "wall_time_s": 38.5
 }

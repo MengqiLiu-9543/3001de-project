@@ -22,11 +22,19 @@ Both systems use the same LLM backend: **Kimi `kimi-k2-0905-preview`** (non-reas
 |---|---|---|---|---|---|
 | **DataGatherer RTR** | **74.7%** | **84.3%** | 74.5% | **97.2%** | **$0.012** |
 | DataGatherer FDR    | 61.4% | 79.5% | 74.5% | 85.4% | $0.621 |
-| DocETL v0 (base)    | 52.5% | 72.5% | 61.7% | 87.9% | ~$0.26 |
-| **DocETL v1 (iterated)** | **74.0%** | **84.0%** | **89.4%** | 79.2% | ~$0.28 |
+| DocETL v0 (base)    | 46.9% | 66.7% | 57.5% | 79.4% | ~$0.26 |
+| **DocETL v1 (iterated)** | **70.8%** | **83.3%** | **85.1%** | 81.6% | ~$0.28 |
 
-**Plain reading**: DataGatherer RTR and DocETL v1 are within **0.7 F1 points**
-on both strict and loose metrics — statistically indistinguishable accuracy.
+**Input format**: per the project spec, DocETL reads PMC papers as **HTML**
+fetched from the canonical `pmc.ncbi.nlm.nih.gov/articles/PMC{id}/` URLs and
+stripped to plain text with BeautifulSoup. DataGatherer is given the same
+PMC URLs and uses its own internal NCBI E-utils fetcher (which returns JATS
+XML — DG's intended input format). Both systems therefore process the same
+set of papers; their LLM-side text is derived from sibling representations
+of the same source content.
+
+**Plain reading**: DataGatherer RTR and DocETL v1 are within **1 F1 point**
+of each other on loose F1 (84.3 vs 83.3) and within **4 points** on strict F1.
 The two systems represent **different tradeoffs** rather than one dominating
 the other:
 
@@ -128,14 +136,18 @@ GPT and Gemini routing). It modifies five files:
   chat completions (Kimi does not support OpenAI's Responses API), and
   normalize `developer` role messages to `system`
 
-### 5. Fetch the EXP papers
+### 5. Fetch the EXP papers as HTML
 
 ```bash
 python scripts/fetch_papers.py
 ```
 
-Downloads 21 PMC articles via NCBI efetch into `data/papers/`. Takes ~30s
-total with built-in 0.5s rate limiting.
+Downloads 21 PMC articles as full HTML pages from
+`https://pmc.ncbi.nlm.nih.gov/articles/PMC{id}/` into `data/papers/`. Each
+paper is saved as both raw `.html` and a BeautifulSoup-stripped `.txt`. The
+script also writes `data/papers/corpus.json` which is what DocETL reads.
+Takes ~30s total with built-in 1s rate limiting and a real-browser
+User-Agent (PMC's frontend rejects default `requests` UAs with reCAPTCHA).
 
 ### 6. Run the systems
 
@@ -196,10 +208,16 @@ important ones:
    120-line prompt with a repository catalog. DataGatherer is run with its
    stock few-shot template. If we gave DG the same effort, it would likely
    close the recall gap.
-4. **Input surface is not held constant.** DocETL receives plain text we
-   stripped from PMC JATS XML using lxml. DataGatherer reads the same XML
-   through its own internal fetch + parser stack. This is a **pipeline
-   comparison**, not a controlled extractor comparison.
+4. **Input format differs between systems.** DocETL receives PMC HTML pages
+   stripped to plain text with BeautifulSoup (per the spec's "PDFs or HTML"
+   requirement). DataGatherer is given the same PMC URLs but uses its own
+   internal NCBI E-utils fetcher, which returns JATS XML — DG's intended
+   input format. PMC's HTML is server-side rendered from the same JATS XML,
+   so the underlying content is identical, but the noise profile differs
+   (HTML carries navigation/sidebar/footer text that BeautifulSoup cannot
+   perfectly strip). This is a **realistic pipeline comparison** where each
+   tool sees the format it was designed for, not a controlled extractor
+   comparison.
 5. **DG's long-document FDR fallback has an upstream typo bug.** None of our
    21 EXP papers triggered it (each is <130k tokens), so our numbers are
    valid; but extending to DataRef-REV (longer papers) requires fixing this
