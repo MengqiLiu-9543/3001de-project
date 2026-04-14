@@ -1,0 +1,110 @@
+{
+  "general": {
+    "css_selectors": {
+      "a[href*=dataset]": "dataset",
+      "a[href*=data]": "dataset",
+      "a[href*=supplementary]": "supplementary",
+      "a[href*=pdf]": "supplementary"
+    },
+    "xpaths": {
+    },
+    "bad_patterns": [
+    ],
+    "skip_llm_classification_patterns": {
+            "scholar.google.com": "Related Works"
+    }
+  },
+  "nature": {
+    "css_selectors": {
+      ".additional-information a": "supplementary",
+      "#data-availability-content a": "supplementary",
+      "#additional-information-section a": "supplementary",
+      "[data-title~=Supplementary] a": "supplementary",
+      "[data-title~=Data] a": "dataset"
+    },
+    "xpaths": {
+      "//h2[contains(text(), 'Source Data')]": "dataset"
+    }
+  },
+  "sciencedirect": {
+    "css_selectors": {
+      ".Appendices a": "dataset",
+      "#da0010 a": "dataset",
+      "#da0010 a": "dataset"
+    },
+    "xpaths": {
+      "//h2[contains(text(), 'Data and code availability')]": "dataset",
+      "//h4[contains(text(), 'Data and code availability')]": "dataset"
+    },
+    "bad_patterns": [
+      "/supporthub/"
+    ]
+  },
+  "thelancet": {
+    "css_selectors": {
+      ".article__sections .section-paragraph a[href*='dataset']": "dataset",
+      ".article__sections .refs .ref__title a[href*='dataset']": "dataset",
+      ".supplemental-information__item a": "supplementary"
+    }
+  },
+  "PMC": {
+    "css_selectors": {
+      "data_availability_sections": {
+        "section.data-availability-statement": "dataset",
+        "section.associated-data": "dataset",
+        "h2.pmc_sec_title:-soup-contains('Data Availability')": "dataset",
+        "h3.pmc_sec_title:-soup-contains('Data Availability')": "dataset"
+      },
+      "supplementary_data_sections": {
+        "h2.pmc_sec_title:-soup-contains('Extended Data')": "dataset",
+        "h3.pmc_sec_title:-soup-contains('Clinical Data')": "dataset",
+        "h2.pmc_sec_title:-soup-contains('Associated Data')": "dataset",
+        "h2.pmc_sec_title:-soup-contains('Footnotes')": "dataset"
+      },
+      "supplementary_material_sections": {
+        "section.supplementary-material": "supplementary",
+        "h2.pmc_sec_title:-soup-contains('Supplementary Material')": "supplementary"
+      }
+    },
+    "xpaths": {
+      "data_availability_sections": [
+        "//section[h2[contains(text(), 'Data Availability')]]",
+        "//section[h3[contains(text(), 'Data Availability')]]",
+        "following-sibling::p[1]",
+        "//section[h2[contains(text(), 'Footnotes')]]",
+        "//sec[title[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'data availability')]]"
+      ],
+      "supplementary_data_sections": [
+        "//section[h2[contains(text(), 'Supplementary Material')]]",
+        "//section[h2[contains(text(), 'Extended Data')]]",
+        "//section[h3[contains(text(), 'Clinical Data')]]",
+        "//section[h3[contains(text(), 'Associated Data')]]",
+        "//section[h2[contains(text(), 'Footnotes')]]"
+      ]
+    },
+    "xml_tags": {
+      "data_availability_sections": [
+        ".//sec[@sec-type='data-availability']",
+        ".//notes[@notes-type='data-availability']",
+        ".//notes[@notes-type='data-availability']"
+      ],
+      "supplementary_material_sections": [
+        ".//supplementary-material"
+      ],
+      "supplementary_data_sections": [
+        ".//sec[@sec-type='supplementary-material']",
+        ".//supplementary-material",
+        ".//sec[@sec-type='associated-data']",
+        ".//sec[@sec-type='extended-data']",
+        ".//sec[@sec-type='samples-and-clinical-data']",
+        ".//sec[@sec-type='footnotes']"
+      ],
+      "key_resources_table": [
+        "//sec[.//title[contains(text(), \"Key resources table\")]]//table-wrap"
+      ],
+      "methods_sections": [
+        ".//sec[@sec-type='STAR★Methods']"
+      ]
+    }
+  }
+}
