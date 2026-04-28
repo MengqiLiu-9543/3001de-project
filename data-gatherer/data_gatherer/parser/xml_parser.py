@@ -91,7 +91,7 @@ class XMLParser(LLMParser):
         str_cont_ret = ''
 
         # extract the text from the data availability section
-        for elem in sect.iter():
+        for elem in sect_element.iter():
             if elem.text and elem.text not in str_cont_ret:
                 str_cont_ret += ' ' + elem.text + ' '
             if elem.tail and elem.tail not in str_cont_ret:

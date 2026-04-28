@@ -412,7 +412,7 @@ Files:
             self.logger.info(f"Processing chunk {idx+1}/{len(chunks)}")
             chunk_results = self.extract_datasets_info_from_content(
                 chunk,
-                repos_elements=repos, model=model, temperature=temperature,prompt_name=prompt_name,response_format=response_format
+                repos, model=model, temperature=temperature, prompt_name=prompt_name, response_format=response_format
             )
             ret.extend(chunk_results)
         return ret

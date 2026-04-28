@@ -47,3 +47,6 @@ See `../patches/datagatherer-kimi-support.patch` for the full diff. Summary:
    `role: developer` messages to `role: system`, drop the JSON-object
    response_format constraint that conflicts with DG's array-format prompt
    templates
+5. `parser/base_parser.py` / `parser/xml_parser.py` — fix upstream parser
+   bugs in long-document chunk fallback argument passing and XML section
+   variable naming.

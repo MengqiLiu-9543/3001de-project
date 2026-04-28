@@ -201,3 +201,24 @@ index acf1674..72a4a9e 100644
              tokens_cnt = self.count_tokens(content, model) + n_tokens_static_prompt
              if tokens_cnt > int(1.25 * 128000):
                  return self.extract_datasets_info_from_chunks(
+@@ -410,7 +414,7 @@ Files:
+         for idx, chunk in enumerate(chunks):
+             self.logger.info(f"Processing chunk {idx+1}/{len(chunks)}")
+             chunk_results = self.extract_datasets_info_from_content(
+                 chunk,
+-                repos_elements=repos, model=model, temperature=temperature,prompt_name=prompt_name,response_format=response_format
++                repos, model=model, temperature=temperature, prompt_name=prompt_name, response_format=response_format
+             )
+             ret.extend(chunk_results)
+         return ret
+diff --git a/data_gatherer/parser/xml_parser.py b/data_gatherer/parser/xml_parser.py
+index 6f6a5c2..fabe09f 100644
+--- a/data_gatherer/parser/xml_parser.py
++++ b/data_gatherer/parser/xml_parser.py
+@@ -93,5 +93,5 @@ class XMLParser(LLMParser):
+         # extract the text from the data availability section
+-        for elem in sect.iter():
++        for elem in sect_element.iter():
+             if elem.text and elem.text not in str_cont_ret:
+                 str_cont_ret += ' ' + elem.text + ' '
+             if elem.tail and elem.tail not in str_cont_ret:
