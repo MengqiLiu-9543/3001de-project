@@ -26,9 +26,15 @@ import requests
 from bs4 import BeautifulSoup
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-GT_CSV = PROJECT_ROOT / "data" / "benchmarks" / "EXP_groundtruth.csv"
-PAPERS_DIR = PROJECT_ROOT / "data" / "papers"
-CORPUS_JSON = PAPERS_DIR / "corpus.json"
+DEFAULT_GT_CSV = PROJECT_ROOT / "data" / "benchmarks" / "EXP_groundtruth.csv"
+DEFAULT_PAPERS_DIR = PROJECT_ROOT / "data" / "papers"
+DEFAULT_CORPUS_JSON = DEFAULT_PAPERS_DIR / "corpus.json"
+
+# Allow REV usage via env vars (avoids forking the script).
+import os as _os
+GT_CSV = Path(_os.environ.get("FETCH_GT_CSV", str(DEFAULT_GT_CSV)))
+PAPERS_DIR = Path(_os.environ.get("FETCH_PAPERS_DIR", str(DEFAULT_PAPERS_DIR)))
+CORPUS_JSON = Path(_os.environ.get("FETCH_CORPUS_JSON", str(DEFAULT_CORPUS_JSON)))
 
 # Real-browser User-Agent. PMC's web frontend rejects non-browser UAs with a
 # reCAPTCHA challenge page.

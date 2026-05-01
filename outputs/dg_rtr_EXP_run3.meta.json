@@ -1,0 +1,13 @@
+{
+  "strategy": "rtr",
+  "model": "kimi-k2-0905-preview",
+  "n_papers": 21,
+  "n_ok": 21,
+  "n_err": 0,
+  "total_predictions": 34,
+  "wall_time_s": 950.3,
+  "llm_calls": 18,
+  "prompt_tokens": 10392,
+  "completion_tokens": 1790,
+  "approx_cost_usd": 0.0107
+}

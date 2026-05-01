@@ -5,9 +5,9 @@
   "n_ok": 21,
   "n_err": 0,
   "total_predictions": 37,
-  "wall_time_s": 180.7,
+  "wall_time_s": 172.3,
   "llm_calls": 20,
   "prompt_tokens": 11381,
-  "completion_tokens": 1984,
+  "completion_tokens": 1973,
   "approx_cost_usd": 0.0118
 }

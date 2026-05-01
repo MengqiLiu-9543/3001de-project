@@ -30,16 +30,19 @@ Thumbs.db
 
 # Cached papers (regenerate with scripts/fetch_papers.py)
 data/papers/
+data/papers_rev/
 
 # Debug logs
 logs/
 
 # DocETL intermediate caches
 outputs/docetl_intermediates*/
+outputs/rev/docetl_intermediates*/
 
 # Old smoke-test artifacts (kept locally for history but not pushed)
 outputs/*_PMC6141466.*
 outputs/*_k25_*
 outputs/*_raw.json
+outputs/rev/*_raw.json
 outputs/sample.json
 outputs/OVERNIGHT_RESULTS.md

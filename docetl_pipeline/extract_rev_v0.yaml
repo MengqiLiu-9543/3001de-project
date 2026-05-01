@@ -1,0 +1,59 @@
+default_model: openai/kimi-k2-0905-preview
+
+system_prompt:
+  dataset_description: scientific publications from PubMed Central
+  persona: a biomedical data curator identifying dataset references in research papers
+
+datasets:
+  papers:
+    type: file
+    path: /Users/liuliuliu/Downloads/3001deproject/data/papers_rev/corpus.json
+
+operations:
+  - name: extract_dataset_references
+    type: map
+    model: openai/kimi-k2-0905-preview
+    litellm_completion_kwargs:
+      temperature: 0
+    output:
+      schema:
+        references: "list[{dataset_identifier: string, repository: string, url: string, source_section: string, evidence: string}]"
+    prompt: |
+      You are reading a scientific paper. Extract every reference to a dataset
+      that the authors used, produced, or deposited. A dataset reference is a
+      concrete accession id or unique URL pointing at data hosted in a
+      repository (e.g., GEO GSE/GSM, SRA SRR/PRJNA, dbGaP phs, PRIDE PXD,
+      MassIVE MSV, ArrayExpress E-MTAB, Zenodo DOI, Figshare DOI, EGA EGA*,
+      BioStudies S-BSST, Synapse syn*, etc.).
+
+      Rules:
+      - Only return items that have a concrete identifier or a URL pointing at
+        data (not tools, not figures, not tables in the paper itself).
+      - "repository" is a short canonical name (GEO, SRA, dbGaP, PRIDE,
+        MassIVE, ArrayExpress, Zenodo, Figshare, BioStudies, EGA, Synapse,
+        BioProject, Other).
+      - "url" is the best direct URL to access the dataset if stated in the
+        paper; empty string if not given.
+      - "source_section" is one of: data_availability, methods,
+        supplementary_material, results, other.
+      - "evidence" is a <=150-char quote from the paper where you found it.
+      - If no datasets are referenced, return an empty list.
+      - Output MUST be valid JSON matching the schema; no prose.
+
+      Paper title: {{ input.paper_title }}
+      PMC URL: {{ input.url }}
+
+      --- BEGIN PAPER TEXT ---
+      {{ input.paper_text }}
+      --- END PAPER TEXT ---
+
+pipeline:
+  steps:
+    - name: extract_step
+      input: papers
+      operations:
+        - extract_dataset_references
+  output:
+    type: file
+    path: /Users/liuliuliu/Downloads/3001deproject/outputs/rev/docetl_v0_REV_raw.json
+    intermediate_dir: /Users/liuliuliu/Downloads/3001deproject/outputs/rev/docetl_intermediates_v0_rev

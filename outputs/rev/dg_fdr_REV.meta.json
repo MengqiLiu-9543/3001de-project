@@ -1,0 +1,16 @@
+{
+  "strategy": "fdr",
+  "model": "kimi-k2-0905-preview",
+  "gt_csv": "data/benchmarks/REV_sample_groundtruth.csv",
+  "n_papers": 1242,
+  "n_ok": 1242,
+  "n_err": 0,
+  "n_skipped_resume": 0,
+  "n_budget_stopped": 0,
+  "total_predictions": 2156,
+  "wall_time_s": 19750.3,
+  "llm_calls": 1081,
+  "prompt_tokens": 53817487,
+  "completion_tokens": 69816,
+  "approx_cost_usd": 32.465
+}

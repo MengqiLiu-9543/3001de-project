@@ -1,6 +1,6 @@
 {
   "pipeline_yaml": "docetl_pipeline/extract.yaml",
   "n_papers": 21,
-  "total_predictions": 34,
-  "wall_time_s": 38.5
+  "total_predictions": 29,
+  "wall_time_s": 34.5
 }

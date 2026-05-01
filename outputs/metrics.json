@@ -6,22 +6,22 @@
     {
       "name": "DataGatherer RTR",
       "path": "/Users/liuliuliu/Downloads/3001deproject/outputs/dg_rtr_EXP.jsonl",
-      "n_papers_pred": 15,
-      "n_predictions_total": 36,
+      "n_papers_pred": 16,
+      "n_predictions_total": 37,
       "strict": {
-        "precision": 0.8611,
+        "precision": 0.8378,
         "recall": 0.6596,
-        "f1": 0.747,
+        "f1": 0.7381,
         "tp": 31,
-        "fp": 5,
+        "fp": 6,
         "fn": 16
       },
       "loose": {
-        "precision": 0.9722,
+        "precision": 0.9459,
         "recall": 0.7447,
-        "f1": 0.8434,
+        "f1": 0.8333,
         "tp": 35,
-        "fp": 1,
+        "fp": 2,
         "fn": 12
       },
       "per_repo_recall": {
@@ -117,12 +117,12 @@
         "n_papers": 21,
         "n_ok": 21,
         "n_err": 0,
-        "total_predictions": 36,
-        "wall_time_s": 164.7,
+        "total_predictions": 37,
+        "wall_time_s": 180.7,
         "llm_calls": 20,
         "prompt_tokens": 11381,
-        "completion_tokens": 1889,
-        "approx_cost_usd": 0.0116
+        "completion_tokens": 1984,
+        "approx_cost_usd": 0.0118
       },
       "strict_per_paper": [
         {
@@ -518,7 +518,7 @@
                 "PDB"
               ],
               [
-                "www.rcsb.org/structure/7zwg",
+                "www.wwpdb.org/pdb?id=pdb_00007zwg",
                 "PDB"
               ]
             ]
@@ -1278,7 +1278,7 @@
         {
           "pmcid": "PMC8628860",
           "tp": 0,
-          "fp": 0,
+          "fp": 1,
           "fn": 1,
           "precision": 0.0,
           "recall": 0.0,
@@ -1299,7 +1299,14 @@
               ]
             ]
           ],
-          "predictions": []
+          "predictions": [
+            [
+              [
+                "github.com/dpeerlab",
+                "github"
+              ]
+            ]
+          ]
         },
         {
           "pmcid": "PMC9506422",
@@ -1552,7 +1559,7 @@
             ],
             [
               "7zwg",
-              "www.rcsb.org/structure/7zwg"
+              "www.wwpdb.org/pdb?id=pdb_00007zwg"
             ]
           ]
         },
@@ -1944,7 +1951,7 @@
         {
           "pmcid": "PMC8628860",
           "tp": 0,
-          "fp": 0,
+          "fp": 1,
           "fn": 1,
           "precision": 0.0,
           "recall": 0.0,
@@ -1956,7 +1963,11 @@
               "egas00001000334"
             ]
           ],
-          "predictions": []
+          "predictions": [
+            [
+              "github.com/dpeerlab"
+            ]
+          ]
         },
         {
           "pmcid": "PMC9506422",
@@ -1995,21 +2006,21 @@
       "name": "DataGatherer FDR",
       "path": "/Users/liuliuliu/Downloads/3001deproject/outputs/dg_fdr_EXP.jsonl",
       "n_papers_pred": 19,
-      "n_predictions_total": 41,
+      "n_predictions_total": 36,
       "strict": {
-        "precision": 0.6585,
-        "recall": 0.5745,
-        "f1": 0.6136,
-        "tp": 27,
-        "fp": 14,
-        "fn": 20
+        "precision": 0.7778,
+        "recall": 0.5957,
+        "f1": 0.6747,
+        "tp": 28,
+        "fp": 8,
+        "fn": 19
       },
       "loose": {
-        "precision": 0.8537,
+        "precision": 0.9722,
         "recall": 0.7447,
-        "f1": 0.7955,
+        "f1": 0.8434,
         "tp": 35,
-        "fp": 6,
+        "fp": 1,
         "fn": 12
       },
       "per_repo_recall": {
@@ -2105,12 +2116,12 @@
         "n_papers": 21,
         "n_ok": 21,
         "n_err": 0,
-        "total_predictions": 43,
-        "wall_time_s": 375.7,
+        "total_predictions": 38,
+        "wall_time_s": 306.5,
         "llm_calls": 20,
-        "prompt_tokens": 1029807,
-        "completion_tokens": 1331,
-        "approx_cost_usd": 0.6212
+        "prompt_tokens": 1029767,
+        "completion_tokens": 1174,
+        "approx_cost_usd": 0.6208
       },
       "strict_per_paper": [
         {
@@ -2497,7 +2508,7 @@
         {
           "pmcid": "PMC11066909",
           "tp": 0,
-          "fp": 6,
+          "fp": 1,
           "fn": 1,
           "precision": 0.0,
           "recall": 0.0,
@@ -2527,56 +2538,6 @@
               [
                 "www.ebi.ac.uk/pride/archive/projects/pxd045268",
                 "PRIDE"
-              ]
-            ],
-            [
-              [
-                "gse10327",
-                "GEO"
-              ],
-              [
-                "www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=gse10327",
-                "GEO"
-              ]
-            ],
-            [
-              [
-                "gse122077",
-                "GEO"
-              ],
-              [
-                "www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=gse122077",
-                "GEO"
-              ]
-            ],
-            [
-              [
-                "gse70678",
-                "GEO"
-              ],
-              [
-                "www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=gse70678",
-                "GEO"
-              ]
-            ],
-            [
-              [
-                "gse73038",
-                "GEO"
-              ],
-              [
-                "www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=gse73038",
-                "GEO"
-              ]
-            ],
-            [
-              [
-                "pdc000180",
-                "PDC"
-              ],
-              [
-                "proteomic.datacommons.cancer.gov/pdc/study/pdc000180",
-                "PDC"
               ]
             ]
           ]
@@ -2944,12 +2905,12 @@
         },
         {
           "pmcid": "PMC11320025",
-          "tp": 0,
-          "fp": 1,
-          "fn": 3,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1": 0.0,
+          "tp": 1,
+          "fp": 0,
+          "fn": 2,
+          "precision": 1.0,
+          "recall": 0.333,
+          "f1": 0.5,
           "ground_truth": [
             [
               [
@@ -2989,12 +2950,12 @@
           "predictions": [
             [
               [
-                "pxd052949",
-                "PRIDE"
+                "proteomecentral.proteomexchange.org/cgi/getdataset?id=pxd052949",
+                "ProteomeXchange"
               ],
               [
-                "www.ebi.ac.uk/pride/archive/projects/pxd052949",
-                "PRIDE"
+                "pxd052949",
+                "ProteomeXchange"
               ]
             ]
           ]
@@ -3604,11 +3565,11 @@
         {
           "pmcid": "PMC11066909",
           "tp": 1,
-          "fp": 5,
+          "fp": 0,
           "fn": 0,
-          "precision": 0.167,
+          "precision": 1.0,
           "recall": 1.0,
-          "f1": 0.286,
+          "f1": 1.0,
           "ground_truth": [
             [
               "proteomecentral.proteomexchange.org",
@@ -3620,26 +3581,6 @@
             [
               "pxd045268",
               "www.ebi.ac.uk/pride/archive/projects/pxd045268"
-            ],
-            [
-              "gse10327",
-              "www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=gse10327"
-            ],
-            [
-              "gse122077",
-              "www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=gse122077"
-            ],
-            [
-              "gse70678",
-              "www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=gse70678"
-            ],
-            [
-              "gse73038",
-              "www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=gse73038"
-            ],
-            [
-              "pdc000180",
-              "proteomic.datacommons.cancer.gov/pdc/study/pdc000180"
             ]
           ]
         },
@@ -3828,8 +3769,8 @@
           ],
           "predictions": [
             [
-              "pxd052949",
-              "www.ebi.ac.uk/pride/archive/projects/pxd052949"
+              "proteomecentral.proteomexchange.org/cgi/getdataset?id=pxd052949",
+              "pxd052949"
             ]
           ]
         },
@@ -4073,21 +4014,21 @@
       "name": "DocETL v0",
       "path": "/Users/liuliuliu/Downloads/3001deproject/outputs/docetl_v0_EXP.jsonl",
       "n_papers_pred": 21,
-      "n_predictions_total": 34,
+      "n_predictions_total": 29,
       "strict": {
-        "precision": 0.5588,
+        "precision": 0.6552,
         "recall": 0.4043,
-        "f1": 0.4691,
+        "f1": 0.5,
         "tp": 19,
-        "fp": 15,
+        "fp": 10,
         "fn": 28
       },
       "loose": {
-        "precision": 0.7941,
+        "precision": 0.931,
         "recall": 0.5745,
-        "f1": 0.6667,
+        "f1": 0.7105,
         "tp": 27,
-        "fp": 7,
+        "fp": 2,
         "fn": 20
       },
       "per_repo_recall": {
@@ -4180,8 +4121,8 @@
       "meta": {
         "pipeline_yaml": "docetl_pipeline/extract.yaml",
         "n_papers": 21,
-        "total_predictions": 34,
-        "wall_time_s": 38.5
+        "total_predictions": 29,
+        "wall_time_s": 34.5
       },
       "strict_per_paper": [
         {
@@ -4564,7 +4505,7 @@
         {
           "pmcid": "PMC11066909",
           "tp": 0,
-          "fp": 6,
+          "fp": 1,
           "fn": 1,
           "precision": 0.0,
           "recall": 0.0,
@@ -4590,40 +4531,6 @@
               [
                 "pxd045268",
                 "PRIDE"
-              ]
-            ],
-            [
-              [
-                "gse10327",
-                "GEO"
-              ]
-            ],
-            [
-              [
-                "gse122077",
-                "GEO"
-              ]
-            ],
-            [
-              [
-                "gse70678",
-                "GEO"
-              ]
-            ],
-            [
-              [
-                "gse73038",
-                "GEO"
-              ]
-            ],
-            [
-              [
-                "pdc.cancer.gov",
-                "PDC"
-              ],
-              [
-                "pdc000180",
-                "PDC"
               ]
             ]
           ]
@@ -4810,10 +4717,6 @@
             [
               [
                 "pxd043612",
-                "PRIDE"
-              ],
-              [
-                "www.ebi.ac.uk/pride/archive/projects/pxd043612",
                 "PRIDE"
               ]
             ]
@@ -5360,11 +5263,19 @@
               [
                 "pxd029805",
                 "PRIDE"
+              ],
+              [
+                "www.ebi.ac.uk/pride/archive/projects/pxd029805",
+                "PRIDE"
               ]
             ],
             [
               [
                 "pxd029821",
+                "PRIDE"
+              ],
+              [
+                "www.ebi.ac.uk/pride/archive/projects/pxd029821",
                 "PRIDE"
               ]
             ]
@@ -5566,11 +5477,11 @@
         {
           "pmcid": "PMC11066909",
           "tp": 1,
-          "fp": 5,
+          "fp": 0,
           "fn": 0,
-          "precision": 0.167,
+          "precision": 1.0,
           "recall": 1.0,
-          "f1": 0.286,
+          "f1": 1.0,
           "ground_truth": [
             [
               "proteomecentral.proteomexchange.org",
@@ -5581,22 +5492,6 @@
           "predictions": [
             [
               "pxd045268"
-            ],
-            [
-              "gse10327"
-            ],
-            [
-              "gse122077"
-            ],
-            [
-              "gse70678"
-            ],
-            [
-              "gse73038"
-            ],
-            [
-              "pdc.cancer.gov",
-              "pdc000180"
             ]
           ]
         },
@@ -5672,8 +5567,7 @@
           ],
           "predictions": [
             [
-              "pxd043612",
-              "www.ebi.ac.uk/pride/archive/projects/pxd043612"
+              "pxd043612"
             ]
           ]
         },
@@ -5987,10 +5881,12 @@
           ],
           "predictions": [
             [
-              "pxd029805"
+              "pxd029805",
+              "www.ebi.ac.uk/pride/archive/projects/pxd029805"
             ],
             [
-              "pxd029821"
+              "pxd029821",
+              "www.ebi.ac.uk/pride/archive/projects/pxd029821"
             ]
           ]
         }
@@ -6000,22 +5896,22 @@
       "name": "DocETL v1",
       "path": "/Users/liuliuliu/Downloads/3001deproject/outputs/docetl_v1_EXP.jsonl",
       "n_papers_pred": 21,
-      "n_predictions_total": 49,
+      "n_predictions_total": 52,
       "strict": {
-        "precision": 0.6939,
-        "recall": 0.7234,
-        "f1": 0.7083,
-        "tp": 34,
-        "fp": 15,
-        "fn": 13
+        "precision": 0.7308,
+        "recall": 0.8085,
+        "f1": 0.7677,
+        "tp": 38,
+        "fp": 14,
+        "fn": 9
       },
       "loose": {
-        "precision": 0.8163,
-        "recall": 0.8511,
-        "f1": 0.8333,
-        "tp": 40,
+        "precision": 0.8269,
+        "recall": 0.9149,
+        "f1": 0.8687,
+        "tp": 43,
         "fp": 9,
-        "fn": 7
+        "fn": 4
       },
       "per_repo_recall": {
         "PDC": {
@@ -6060,8 +5956,8 @@
         },
         "Mendeley": {
           "gt_count": 2,
-          "hit_count": 0,
-          "recall": 0.0
+          "hit_count": 2,
+          "recall": 1.0
         },
         "GEO": {
           "gt_count": 2,
@@ -6080,8 +5976,8 @@
         },
         "CPTAC": {
           "gt_count": 1,
-          "hit_count": 0,
-          "recall": 0.0
+          "hit_count": 1,
+          "recall": 1.0
         },
         "iProX": {
           "gt_count": 1,
@@ -6107,8 +6003,8 @@
       "meta": {
         "pipeline_yaml": "docetl_pipeline/extract_v1.yaml",
         "n_papers": 21,
-        "total_predictions": 49,
-        "wall_time_s": 46.7
+        "total_predictions": 52,
+        "wall_time_s": 59.0
       },
       "strict_per_paper": [
         {
@@ -6387,21 +6283,21 @@
             ],
             [
               [
-                "depmap.org/portal/download/all/?releasename=depmap+public+19q1",
+                "19q1",
                 "DepMap"
               ],
               [
-                "depmappublic19q1",
+                "depmap.org/portal/download/all/?releasename=depmap+public+19q1",
                 "DepMap"
               ]
             ],
             [
               [
-                "depmap.org/portal/download/all/?releasename=depmap+public+18q3",
+                "18q3",
                 "DepMap"
               ],
               [
-                "depmappublic18q3",
+                "depmap.org/portal/download/all/?releasename=depmap+public+18q3",
                 "DepMap"
               ]
             ],
@@ -6496,7 +6392,7 @@
           "predictions": [
             [
               [
-                "massive.ucsd.edu/proteosafe/dataset.jsp?task=msv000092248",
+                "massive.ucsd.edu/proteosafe/datasets.jsp?task=msv000092248",
                 "MassIVE"
               ],
               [
@@ -6625,12 +6521,12 @@
         },
         {
           "pmcid": "PMC11129317",
-          "tp": 10,
+          "tp": 12,
           "fp": 0,
-          "fn": 2,
+          "fn": 0,
           "precision": 1.0,
-          "recall": 0.833,
-          "f1": 0.909,
+          "recall": 1.0,
+          "f1": 1.0,
           "ground_truth": [
             [
               [
@@ -6814,92 +6710,104 @@
             ],
             [
               [
-                "pdc000234",
+                "pdc.cancer.gov/pdc",
                 "PDC"
               ],
               [
-                "proteomic.datacommons.cancer.gov/pdc/study/pdc000234",
+                "pdc000234",
                 "PDC"
               ]
             ],
             [
+              [
+                "pdc.cancer.gov/pdc",
+                "PDC"
+              ],
               [
                 "pdc000127",
                 "PDC"
-              ],
-              [
-                "proteomic.datacommons.cancer.gov/pdc/study/pdc000127",
-                "PDC"
               ]
             ],
             [
+              [
+                "pdc.cancer.gov/pdc",
+                "PDC"
+              ],
               [
                 "pdc000204",
                 "PDC"
-              ],
-              [
-                "proteomic.datacommons.cancer.gov/pdc/study/pdc000204",
-                "PDC"
               ]
             ],
             [
+              [
+                "pdc.cancer.gov/pdc",
+                "PDC"
+              ],
               [
                 "pdc000221",
                 "PDC"
-              ],
-              [
-                "proteomic.datacommons.cancer.gov/pdc/study/pdc000221",
-                "PDC"
               ]
             ],
             [
+              [
+                "pdc.cancer.gov/pdc",
+                "PDC"
+              ],
               [
                 "pdc000198",
                 "PDC"
-              ],
-              [
-                "proteomic.datacommons.cancer.gov/pdc/study/pdc000198",
-                "PDC"
               ]
             ],
             [
+              [
+                "pdc.cancer.gov/pdc",
+                "PDC"
+              ],
               [
                 "pdc000110",
                 "PDC"
-              ],
-              [
-                "proteomic.datacommons.cancer.gov/pdc/study/pdc000110",
-                "PDC"
               ]
             ],
             [
+              [
+                "pdc.cancer.gov/pdc",
+                "PDC"
+              ],
               [
                 "pdc000270",
                 "PDC"
-              ],
-              [
-                "proteomic.datacommons.cancer.gov/pdc/study/pdc000270",
-                "PDC"
               ]
             ],
             [
+              [
+                "pdc.cancer.gov/pdc",
+                "PDC"
+              ],
               [
                 "pdc000125",
                 "PDC"
+              ]
+            ],
+            [
+              [
+                "pdc.cancer.gov/pdc",
+                "PDC"
               ],
               [
-                "proteomic.datacommons.cancer.gov/pdc/study/pdc000125",
+                "pdc000153",
                 "PDC"
               ]
             ],
             [
               [
-                "pdc000153",
-                "PDC"
-              ],
+                "10.17632/3wfxrz66w2.1",
+                "Mendeley"
+              ]
+            ],
+            [
               [
-                "proteomic.datacommons.cancer.gov/pdc/study/pdc000153",
-                "PDC"
+                "10.17632/bvdn865y9c.1",
+                "Mendeley"
               ]
             ]
           ]
@@ -6986,12 +6894,12 @@
         },
         {
           "pmcid": "PMC11320025",
-          "tp": 0,
+          "tp": 1,
           "fp": 1,
-          "fn": 3,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1": 0.0,
+          "fn": 2,
+          "precision": 0.5,
+          "recall": 0.333,
+          "f1": 0.4,
           "ground_truth": [
             [
               [
@@ -7037,6 +6945,16 @@
               [
                 "www.ebi.ac.uk/pride/archive/projects/pxd052949",
                 "PRIDE"
+              ]
+            ],
+            [
+              [
+                "6077-6129",
+                "CPTAC"
+              ],
+              [
+                "assays.cancer.gov/available_assays",
+                "CPTAC"
               ]
             ]
           ]
@@ -7332,12 +7250,12 @@
         },
         {
           "pmcid": "PMC6141466",
-          "tp": 1,
-          "fp": 1,
-          "fn": 1,
-          "precision": 0.5,
-          "recall": 0.5,
-          "f1": 0.5,
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
           "ground_truth": [
             [
               [
@@ -7382,11 +7300,11 @@
             [
               [
                 "prjna306801",
-                "BioProject"
+                "SRA"
               ],
               [
                 "www.ncbi.nlm.nih.gov/bioproject/?term=prjna306801",
-                "BioProject"
+                "SRA"
               ]
             ]
           ]
@@ -7425,7 +7343,7 @@
             [
               [
                 "mskcc.ionpath.com/tracker",
-                "Ionpath Tracker"
+                "Other"
               ]
             ]
           ]
@@ -7636,12 +7554,12 @@
               "www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs001823"
             ],
             [
-              "depmap.org/portal/download/all/?releasename=depmap+public+19q1",
-              "depmappublic19q1"
+              "19q1",
+              "depmap.org/portal/download/all/?releasename=depmap+public+19q1"
             ],
             [
-              "depmap.org/portal/download/all/?releasename=depmap+public+18q3",
-              "depmappublic18q3"
+              "18q3",
+              "depmap.org/portal/download/all/?releasename=depmap+public+18q3"
             ],
             [
               "ccle2019",
@@ -7685,7 +7603,7 @@
           ],
           "predictions": [
             [
-              "massive.ucsd.edu/proteosafe/dataset.jsp?task=msv000092248",
+              "massive.ucsd.edu/proteosafe/datasets.jsp?task=msv000092248",
               "msv000092248"
             ],
             [
@@ -7746,12 +7664,12 @@
         },
         {
           "pmcid": "PMC11129317",
-          "tp": 10,
+          "tp": 12,
           "fp": 0,
-          "fn": 2,
+          "fn": 0,
           "precision": 1.0,
-          "recall": 0.833,
-          "f1": 0.909,
+          "recall": 1.0,
+          "f1": 1.0,
           "ground_truth": [
             [
               "pdc000234",
@@ -7820,40 +7738,46 @@
               "www.ebi.ac.uk/pride/archive/projects/pxd043612"
             ],
             [
-              "pdc000234",
-              "proteomic.datacommons.cancer.gov/pdc/study/pdc000234"
+              "pdc.cancer.gov/pdc",
+              "pdc000234"
             ],
             [
-              "pdc000127",
-              "proteomic.datacommons.cancer.gov/pdc/study/pdc000127"
+              "pdc.cancer.gov/pdc",
+              "pdc000127"
             ],
             [
-              "pdc000204",
-              "proteomic.datacommons.cancer.gov/pdc/study/pdc000204"
+              "pdc.cancer.gov/pdc",
+              "pdc000204"
             ],
             [
-              "pdc000221",
-              "proteomic.datacommons.cancer.gov/pdc/study/pdc000221"
+              "pdc.cancer.gov/pdc",
+              "pdc000221"
             ],
             [
-              "pdc000198",
-              "proteomic.datacommons.cancer.gov/pdc/study/pdc000198"
+              "pdc.cancer.gov/pdc",
+              "pdc000198"
             ],
             [
-              "pdc000110",
-              "proteomic.datacommons.cancer.gov/pdc/study/pdc000110"
+              "pdc.cancer.gov/pdc",
+              "pdc000110"
             ],
             [
-              "pdc000270",
-              "proteomic.datacommons.cancer.gov/pdc/study/pdc000270"
+              "pdc.cancer.gov/pdc",
+              "pdc000270"
             ],
             [
-              "pdc000125",
-              "proteomic.datacommons.cancer.gov/pdc/study/pdc000125"
+              "pdc.cancer.gov/pdc",
+              "pdc000125"
             ],
             [
-              "pdc000153",
-              "proteomic.datacommons.cancer.gov/pdc/study/pdc000153"
+              "pdc.cancer.gov/pdc",
+              "pdc000153"
+            ],
+            [
+              "10.17632/3wfxrz66w2.1"
+            ],
+            [
+              "10.17632/bvdn865y9c.1"
             ]
           ]
         },
@@ -7906,12 +7830,12 @@
         },
         {
           "pmcid": "PMC11320025",
-          "tp": 1,
+          "tp": 2,
           "fp": 0,
-          "fn": 2,
+          "fn": 1,
           "precision": 1.0,
-          "recall": 0.333,
-          "f1": 0.5,
+          "recall": 0.667,
+          "f1": 0.8,
           "ground_truth": [
             [
               "astrazenecagroup-dt.pharmacm.com/dt/home"
@@ -7931,6 +7855,10 @@
             [
               "pxd052949",
               "www.ebi.ac.uk/pride/archive/projects/pxd052949"
+            ],
+            [
+              "6077-6129",
+              "assays.cancer.gov/available_assays"
             ]
           ]
         },

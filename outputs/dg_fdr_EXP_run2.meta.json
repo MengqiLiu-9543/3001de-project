@@ -4,10 +4,10 @@
   "n_papers": 21,
   "n_ok": 21,
   "n_err": 0,
-  "total_predictions": 38,
-  "wall_time_s": 306.5,
+  "total_predictions": 43,
+  "wall_time_s": 107.7,
   "llm_calls": 20,
   "prompt_tokens": 1029767,
-  "completion_tokens": 1174,
-  "approx_cost_usd": 0.6208
+  "completion_tokens": 1331,
+  "approx_cost_usd": 0.6212
 }

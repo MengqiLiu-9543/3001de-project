@@ -1,0 +1,12 @@
+{
+  "pipeline_yaml": "docetl_pipeline/extract.yaml",
+  "model": "kimi-k2-0905-preview",
+  "n_papers": 21,
+  "total_predictions": 38,
+  "wall_time_s": 31.4,
+  "llm_calls": 21,
+  "prompt_tokens": 481209,
+  "completion_tokens": 3412,
+  "approx_cost_usd": 0.2973,
+  "docetl_reported_cost_usd": 0.0
+}

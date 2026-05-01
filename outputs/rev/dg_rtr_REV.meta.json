@@ -1,0 +1,15 @@
+{
+  "strategy": "rtr",
+  "model": "kimi-k2-0905-preview",
+  "gt_csv": "data/benchmarks/REV_sample_groundtruth.csv",
+  "n_papers": 1242,
+  "n_ok": 1242,
+  "n_err": 0,
+  "n_skipped_resume": 0,
+  "total_predictions": 1275,
+  "wall_time_s": 7138.6,
+  "llm_calls": 1079,
+  "prompt_tokens": 533279,
+  "completion_tokens": 70111,
+  "approx_cost_usd": 0.4952
+}

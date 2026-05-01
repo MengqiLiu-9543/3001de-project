@@ -316,6 +316,30 @@
     ],
     "docetl_only": [
       {
+        "pmcid": "PMC11320025",
+        "ident": "6077-6129",
+        "gt_repo": "CPTAC",
+        "dg_rtr_hit": false,
+        "dg_fdr_hit": false,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11129317",
+        "ident": "10.17632/bvdn865y9c.1",
+        "gt_repo": "Mendeley",
+        "dg_rtr_hit": false,
+        "dg_fdr_hit": false,
+        "docetl_hit": true
+      },
+      {
+        "pmcid": "PMC11129317",
+        "ident": "10.17632/3wfxrz66w2.1",
+        "gt_repo": "Mendeley",
+        "dg_rtr_hit": false,
+        "dg_fdr_hit": false,
+        "docetl_hit": true
+      },
+      {
         "pmcid": "PMC4915822",
         "ident": "ega-archive.org",
         "gt_repo": "EGA",
@@ -330,30 +354,6 @@
         "pmcid": "PMC11320025",
         "ident": "astrazenecagroup-dt.pharmacm.com/dt/home",
         "gt_repo": "AstraZeneca",
-        "dg_rtr_hit": false,
-        "dg_fdr_hit": false,
-        "docetl_hit": false
-      },
-      {
-        "pmcid": "PMC11320025",
-        "ident": "6077-6129",
-        "gt_repo": "CPTAC",
-        "dg_rtr_hit": false,
-        "dg_fdr_hit": false,
-        "docetl_hit": false
-      },
-      {
-        "pmcid": "PMC11129317",
-        "ident": "10.17632/bvdn865y9c.1",
-        "gt_repo": "Mendeley",
-        "dg_rtr_hit": false,
-        "dg_fdr_hit": false,
-        "docetl_hit": false
-      },
-      {
-        "pmcid": "PMC11129317",
-        "ident": "10.17632/3wfxrz66w2.1",
-        "gt_repo": "Mendeley",
         "dg_rtr_hit": false,
         "dg_fdr_hit": false,
         "docetl_hit": false
@@ -386,9 +386,9 @@
   },
   "counts": {
     "both_hit": 39,
-    "docetl_only": 1,
+    "docetl_only": 4,
     "dg_only": 0,
-    "both_missed": 7
+    "both_missed": 4
   },
   "false_positives": {
     "dg_rtr": [
@@ -396,6 +396,11 @@
         "pmcid": "PMC11352417",
         "ident": "jpst002506",
         "pred_repo": "repository.jpostdb.org"
+      },
+      {
+        "pmcid": "PMC8628860",
+        "ident": "github.com/dpeerlab",
+        "pred_repo": "github"
       }
     ],
     "dg_fdr": [
@@ -403,31 +408,6 @@
         "pmcid": "PMC11015306",
         "ident": "pxd042991",
         "pred_repo": "PRIDE"
-      },
-      {
-        "pmcid": "PMC11066909",
-        "ident": "gse10327",
-        "pred_repo": "GEO"
-      },
-      {
-        "pmcid": "PMC11066909",
-        "ident": "gse122077",
-        "pred_repo": "GEO"
-      },
-      {
-        "pmcid": "PMC11066909",
-        "ident": "gse70678",
-        "pred_repo": "GEO"
-      },
-      {
-        "pmcid": "PMC11066909",
-        "ident": "gse73038",
-        "pred_repo": "GEO"
-      },
-      {
-        "pmcid": "PMC11066909",
-        "ident": "pdc000180",
-        "pred_repo": "PDC"
       }
     ],
     "docetl": [
@@ -469,7 +449,7 @@
       {
         "pmcid": "PMC8628860",
         "ident": "mskcc.ionpath.com/tracker",
-        "pred_repo": "Ionpath Tracker"
+        "pred_repo": "Other"
       }
     ]
   }

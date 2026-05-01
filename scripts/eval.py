@@ -220,12 +220,22 @@ def load_ground_truth(csv_path: Path = GT_CSV) -> dict[str, list[frozenset[tuple
     return dict(gt)
 
 
-def load_predictions(jsonl_path: Path) -> dict[str, list[frozenset[tuple[str, str]]]]:
+def load_predictions(
+    jsonl_path: Path,
+    role_filter: str | None = None,
+) -> dict[str, list[frozenset[tuple[str, str]]]]:
     """Load system output. Returns {PMCID: [record_signatures, ...]}.
 
     Each prediction record is represented by its full set of possible
     matching keys (identifier + URL + dataset_webpage), so any URL match is
     credited regardless of how the system labeled the identifier.
+
+    role_filter:
+        None       — keep all predictions (default; backward compatible)
+        "primary"  — keep only predictions whose data_role == "primary".
+                     Predictions missing the field are also kept (treated
+                     as primary, since older outputs lack the field).
+        "reused"   — keep only predictions whose data_role == "reused".
     """
     preds: dict[str, list[frozenset[tuple[str, str]]]] = defaultdict(list)
     with jsonl_path.open() as f:
@@ -236,6 +246,15 @@ def load_predictions(jsonl_path: Path) -> dict[str, list[frozenset[tuple[str, st
             record = json.loads(line)
             pmcid = record["pmcid"]
             for pred in record.get("predictions", []):
+                if role_filter is not None:
+                    role = (pred.get("data_role") or "").strip().lower()
+                    if role_filter == "primary":
+                        # Keep "primary" plus empty/missing (older outputs).
+                        if role and role != "primary":
+                            continue
+                    elif role_filter == "reused":
+                        if role != "reused":
+                            continue
                 sigs = record_signatures(
                     pred.get("dataset_identifier"),
                     pred.get("repository"),

@@ -96,12 +96,43 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--strategy", choices=["rtr", "fdr"], required=True)
     ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument(
+        "--gt-csv",
+        type=Path,
+        default=GT_CSV,
+        help="Path to ground-truth CSV (defaults to EXP).",
+    )
+    ap.add_argument(
+        "--resume",
+        action="store_true",
+        help=(
+            "If --out already exists, skip pmcids already present and append "
+            "remaining. Useful for long REV runs."
+        ),
+    )
     args = ap.parse_args()
 
-    gt = pd.read_csv(GT_CSV)
+    gt = pd.read_csv(args.gt_csv)
     urls = sorted(gt["citing_publication_link"].unique().tolist())
     print(f"Running DG {args.strategy.upper()} on {len(urls)} papers with {MODEL}")
+    print(f"GT csv -> {args.gt_csv}")
     print(f"Output -> {args.out}")
+
+    # Resume support: read existing output, find which PMCIDs are already done.
+    done_pmcids: set[str] = set()
+    if args.resume and args.out.exists():
+        try:
+            for line in args.out.open():
+                line = line.strip()
+                if not line:
+                    continue
+                rec = json.loads(line)
+                if rec.get("pmcid") and rec.get("error") is None:
+                    done_pmcids.add(rec["pmcid"])
+        except Exception as exc:
+            print(f"warning: could not read existing output for resume: {exc}")
+        if done_pmcids:
+            print(f"resume: found {len(done_pmcids)} pmcids already processed; skipping them")
 
     process_entire_document = args.strategy == "fdr"
     dg = DataGatherer(
@@ -112,24 +143,50 @@ def main() -> int:
     # Reset usage counter.
     llm_mod._usage_counter = {"calls": 0, "prompt_tokens": 0, "completion_tokens": 0}
 
+    # Hard budget kill switch: refuse to start a new paper if cumulative
+    # cost would exceed this. Prevents over-spending on tight quotas.
+    MAX_USD = float(os.environ.get("DG_MAX_USD", "0") or 0)  # 0 = disabled
+    if MAX_USD > 0:
+        print(f"Budget kill switch: will stop if cumulative cost exceeds ${MAX_USD}")
+
     args.out.parent.mkdir(parents=True, exist_ok=True)
     tot_t = 0.0
-    n_ok = 0
+    n_ok = len(done_pmcids)
     n_err = 0
+    n_skipped = 0
     total_preds = 0
-    with args.out.open("w") as f:
+    n_budget_stopped = 0
+    open_mode = "a" if (args.resume and args.out.exists()) else "w"
+    with args.out.open(open_mode) as f:
         for i, url in enumerate(urls, 1):
             pmcid = extract_pmcid(url)
+            if pmcid in done_pmcids:
+                n_skipped += 1
+                continue
+            # Budget check: if we'd exceed budget, stop gracefully (output
+            # already flushed to disk line by line — partial run is salvageable).
+            if MAX_USD > 0:
+                u = llm_mod._usage_counter
+                so_far = (u["prompt_tokens"]/1_000_000*0.60
+                          + u["completion_tokens"]/1_000_000*2.50)
+                if so_far >= MAX_USD:
+                    print(
+                        f"\n[BUDGET STOP] cumulative cost ${so_far:.4f} >= "
+                        f"${MAX_USD}. Stopping at paper {i}/{len(urls)}. "
+                        f"{i-1} papers processed; remaining {len(urls)-i+1} skipped."
+                    )
+                    n_budget_stopped = len(urls) - i + 1
+                    break
             preds, latency, err = run_one(dg, url, fdr=process_entire_document)
             tot_t += latency
             if err:
                 n_err += 1
-                print(f"  [{i:>2}/{len(urls)}] ✗ {pmcid}  {latency:5.1f}s  ERROR: {err}")
+                print(f"  [{i:>5}/{len(urls)}] ✗ {pmcid}  {latency:5.1f}s  ERROR: {err}")
             else:
                 n_ok += 1
                 total_preds += len(preds)
                 print(
-                    f"  [{i:>2}/{len(urls)}] ✓ {pmcid}  {latency:5.1f}s  "
+                    f"  [{i:>5}/{len(urls)}] ✓ {pmcid}  {latency:5.1f}s  "
                     f"preds={len(preds)}"
                 )
             f.write(
@@ -156,9 +213,12 @@ def main() -> int:
     meta = {
         "strategy": args.strategy,
         "model": MODEL,
+        "gt_csv": str(args.gt_csv),
         "n_papers": len(urls),
         "n_ok": n_ok,
         "n_err": n_err,
+        "n_skipped_resume": n_skipped,
+        "n_budget_stopped": n_budget_stopped,
         "total_predictions": total_preds,
         "wall_time_s": round(tot_t, 1),
         "llm_calls": usage["calls"],
