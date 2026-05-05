@@ -44,8 +44,8 @@ than DocETL v1, 54× cheaper than DG-FDR).
 | System | Predictions | Loose Precision | Loose Recall | **Loose F1** | **Cost (USD)** |
 |---|---|---|---|---|---|
 | **DG-RTR** | 1,275 | 75.06% | 50.82% | **60.61%** | **$0.50** |
-| **DG-FDR** | 2,149 | 76.17% | **86.94%** | **81.20%** ← highest F1 | $32.47 |
-| **DocETL v1** | 2,802 | 66.35% | **98.73%** | **79.36%** | ~$18 |
+| **DG-FDR** | 2,149 | **76.17%** | 86.94% | 81.20% | $32.47 |
+| **DocETL v1** | 2,612 | 71.13% | **98.67%** | **82.67%** ← highest F1 | $17.67 |
 
 (DocETL v1 was *not* run on REV with v0; v0 was only used for prompt
 ablation on EXP.)
@@ -56,7 +56,7 @@ ablation on EXP.)
 |---|---|---|---|
 | DG-RTR | 82.7% / $0.011 | **60.6%** / $0.50 | F1 ↓ 22 pt |
 | DG-FDR | 82.7% / $0.621 | **81.2%** / $32.47 | F1 ≈ same |
-| DocETL v1 | 80.8% / $0.306 | **79.4%** / $18 | F1 ≈ same |
+| DocETL v1 | 80.8% / $0.306 | **82.7%** / $17.67 | F1 ↑ 2 pt |
 
 **Key finding.** "Specialized vs generic" is not the right axis. What
 matters is whether the tool reads the whole document (DG-FDR, DocETL v1)
@@ -76,17 +76,18 @@ section.
 ### Cost / accuracy trade-off (REV)
 
 ```
-Cost (log)  $0.5     $18      $32
+Cost (log)  $0.5     $17.67   $32
             DG-RTR   v1       FDR
-F1          60.6%    79.4%    81.2%
+F1          60.6%    82.7%    81.2%
 ```
 
 - DG-RTR: only viable choice at industrial scale; 51% recall is too low
   for many use cases.
-- DG-FDR: best F1 but 65× more expensive than RTR.
-- DocETL v1: best recall (99%); precision suffers but failure mode is
-  benign (over-extraction → manual filtering is easier than missing
-  data).
+- DG-FDR: highest precision among full-document readers (76%), but ~2×
+  the cost of v1 for ~1.5 pt lower F1.
+- DocETL v1: highest F1 (82.7%) and recall (99%) on REV; precision is
+  lower than DG-FDR (71% vs 76%) since the generic LLM occasionally
+  picks up reused public datasets DG-FDR's deposit-tuned prompts skip.
 
 ---
 
@@ -128,8 +129,8 @@ Inspection of DocETL v1's 9 EXP false positives revealed:
 - 1 is a synonymous mirror (jPOST `JPST002506` ≡ ProteomeXchange
   `PXD049309`).
 
-**0 hallucinations**. The 82.7% precision number underestimates v1's
-extraction quality.
+**0 hallucinations**. The headline precision number on EXP underestimates
+v1's actual extraction quality.
 
 ### 4. v2 data_role experiment (failed hypothesis, kept as documentation)
 
@@ -257,7 +258,7 @@ To regenerate the N=3 aggregated numbers in this README:
 
 ```bash
 for i in 1 2 3; do
-  rm -rf ~/.cache/docetl   # clear DocETL LLM cache for independence
+  rm -f ~/.cache/docetl/llm/cache.db   # clear LiteLLM cache for independence
   python scripts/run_datagatherer.py --strategy rtr --out outputs/dg_rtr_EXP_run${i}.jsonl
   python scripts/run_datagatherer.py --strategy fdr --out outputs/dg_fdr_EXP_run${i}.jsonl
   python scripts/run_docetl.py --yaml docetl_pipeline/extract.yaml    --out outputs/docetl_v0_EXP_run${i}.jsonl
@@ -288,7 +289,9 @@ DG_MAX_USD=37 python scripts/run_datagatherer.py --strategy fdr \
   --gt-csv data/benchmarks/REV_sample_groundtruth.csv \
   --out outputs/rev/dg_fdr_REV.jsonl --resume
 
-# DocETL v1 on REV (~50 min, ~$18)
+# DocETL v1 on REV (~12 min, ~$17.67)
+# Optionally clear the LiteLLM cache first to ensure fresh API calls:
+#   rm -f ~/.cache/docetl/llm/cache.db
 python scripts/run_docetl.py --yaml docetl_pipeline/extract_rev_v1.yaml \
   --out outputs/rev/docetl_v1_REV.jsonl
 ```

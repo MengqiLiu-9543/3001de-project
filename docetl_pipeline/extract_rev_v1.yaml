@@ -1,5 +1,9 @@
 default_model: openai/kimi-k2-0905-preview
 
+# DocETL v1 prompt for DataRef-EXP / REV dataset reference extraction.
+# Iterated from v0 (15-line baseline) by adding a 27-repository identifier
+# catalog with regex patterns and explicit field-formatting rules.
+
 system_prompt:
   dataset_description: scientific publications from PubMed Central
   persona: a biomedical data curator identifying dataset references in research papers
@@ -20,7 +24,7 @@ operations:
         references: "list[{dataset_identifier: string, repository: string, url: string, source_section: string, evidence: string}]"
     prompt: |
       You are reading a scientific paper. Extract EVERY reference to a dataset
-      that the authors used, produced, or deposited — whether mentioned in the
+      that the authors produced or deposited — whether mentioned in the
       data availability statement, the methods section, a key resource table,
       a supplementary material section, or the main text.
 
@@ -72,26 +76,21 @@ operations:
       1. Extract an item ONLY if it has a concrete dataset identifier OR a
          direct URL that clearly points to a data record (not a tool, not a
          figure in THIS paper, not a table caption in THIS paper).
-      2. Search the WHOLE document: data availability, methods, key resource
-         tables, supplementary material, results captions. Do not stop at the
-         data availability statement.
-      3. If a paper reuses public datasets, those count — the task is "every
-         dataset referenced", not "every dataset the authors deposited".
-      4. `repository` must be the short canonical name from the list above
+      2. `repository` must be the short canonical name from the list above
          (GEO, SRA, BioProject, dbGaP, PDB, PRIDE, ProteomeXchange, MassIVE,
          iProX, jPOST, PDC, PanoramaPublic, CPTAC, TCGA, DepMap, ICGC, EGA,
          ArrayExpress, ENA, DDBJ, BioStudies, Zenodo, Figshare, Mendeley,
          Dryad, OSF, Other).
-      5. `url` should be a direct URL to the record if the paper gives one,
+      3. `url` should be a direct URL to the record if the paper gives one,
          otherwise the best-known canonical landing-page URL for that
          accession. Use empty string only as last resort.
-      6. `source_section` is one of: data_availability, methods,
+      4. `source_section` is one of: data_availability, methods,
          supplementary_material, key_resource_table, results, other.
-      7. `evidence` is a <=200-char quote from the paper containing the
+      5. `evidence` is a <=200-char quote from the paper containing the
          identifier or the sentence it appears in. Keep it verbatim (you may
          truncate whitespace but do not paraphrase).
-      8. DO NOT invent identifiers that are not literally in the paper text.
-      9. Return an empty list if the paper genuinely does not reference any
+      6. DO NOT invent identifiers that are not literally in the paper text.
+      7. Return an empty list if the paper genuinely does not reference any
          dataset.
 
       ---
