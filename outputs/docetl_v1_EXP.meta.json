@@ -3,10 +3,10 @@
   "model": "kimi-k2-0905-preview",
   "n_papers": 21,
   "total_predictions": 49,
-  "wall_time_s": 44.7,
+  "wall_time_s": 31.6,
   "llm_calls": 21,
-  "prompt_tokens": 492322,
-  "completion_tokens": 4422,
-  "approx_cost_usd": 0.3064,
+  "prompt_tokens": 491161,
+  "completion_tokens": 4389,
+  "approx_cost_usd": 0.3057,
   "docetl_reported_cost_usd": 0.0
 }
