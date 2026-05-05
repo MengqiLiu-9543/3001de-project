@@ -33,7 +33,7 @@ pipeline architecture from model quality.
 | **DG-RTR** | 36.0 ± 1.7 | 95.4% ± 1.4 | 73.1% ± 2.5 | **82.7% ± 1.1** | **$0.011** |
 | **DG-FDR** | 37.7 ± 2.9 | 93.3% ± 6.8 | 74.5% ± 0.0 | **82.7% ± 2.8** | $0.621 |
 | **DocETL v0** | 37.3 ± 3.1 | 85.1% ± 5.3 | 67.4% ± 2.5 | **75.1% ± 1.9** | $0.297 |
-| **DocETL v1** | 48.7 ± 2.5 | 79.4% ± 1.9 | 82.3% ± 4.9 | **80.8% ± 3.0** | $0.306 |
+| **DocETL v1** | 47.0 ± 2.0 | 80.8% ± 0.8 | 80.9% ± 4.3 | **80.8% ± 2.5** | $0.306 |
 
 On EXP, DG-RTR / DG-FDR / DocETL v1 are **statistically indistinguishable
 on F1** (confidence intervals overlap). DG-RTR wins on cost (27× cheaper
