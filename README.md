@@ -15,7 +15,7 @@ papers, evaluating on **DataRef-EXP** (21 curated papers, 47 records) and
 - **DocETL** — a general-purpose declarative LLM document-processing
   framework.
   - **v0** baseline (15-line prompt).
-  - **v1** iterated prompt (120 lines + repository catalog + extraction
+  - **v1** iterated prompt (80 lines + repository catalog + extraction
     rules).
 
 All four configurations use the **same LLM**: Kimi
@@ -86,8 +86,10 @@ F1          60.6%    82.7%    81.2%
 - DG-FDR: highest precision among full-document readers (76%), but ~2×
   the cost of v1 for ~1.5 pt lower F1.
 - DocETL v1: highest F1 (82.7%) and recall (99%) on REV; precision is
-  lower than DG-FDR (71% vs 76%) since the generic LLM occasionally
-  picks up reused public datasets DG-FDR's deposit-tuned prompts skip.
+  lower than DG-FDR (71% vs 76%) because the generic LLM consistently
+  picks up reused public datasets cited in Methods sections, while
+  DG-FDR's shorter and less aggressive prompt produces this behavior
+  less often.
 
 ---
 
@@ -116,33 +118,22 @@ convert content-filter rejections into empty-references responses, so a
 single rejected paper doesn't kill the whole pipeline. DG-FDR's internal
 exception handling already does this.
 
-In our REV run, **2 of 1,241 papers** triggered the filter:
-`PMC6434046` (genome editing) and `PMC6501615` (Deinococcus radiodurans
-exposed to low-Earth-orbit vacuum).
-
 ### 3. GT-incomplete vs. system-FP conflation
 
 Inspection of DocETL v1's 9 EXP false positives revealed:
-- 6 are reused datasets (e.g., GSE10327 in PMC11066909) that exist in
-  the paper but the GT annotator excluded.
+- 5 are reused public datasets (4 GSE accessions + 1 PDC ID in
+  PMC11066909) cited from prior work; the GT for that paper credits
+  only the one PXD the authors deposited themselves.
+- 1 is a deposited PXD in PMC11015306 — clearly stated in the paper as
+  deposited to ProteomeXchange, but the GT has no record for that paper
+  at all (DG-FDR also picks up the exact same PXD every run, confirming
+  this is a benchmark gap).
 - 2 are field-mapping errors (URL placed in `dataset_identifier`).
 - 1 is a synonymous mirror (jPOST `JPST002506` ≡ ProteomeXchange
   `PXD049309`).
 
 **0 hallucinations**. The headline precision number on EXP underestimates
 v1's actual extraction quality.
-
-### 4. v2 data_role experiment (failed hypothesis, kept as documentation)
-
-We tested whether labeling each prediction as "primary" (deposited by
-this paper) vs "reused" (cited from prior work) and filtering to
-primary-only could raise precision. **Falsified**: GT contains many
-reused datasets (PMC11129317 is a meta-analysis whose 8 reused PDC
-datasets ARE the research subject). Primary-only filtering dropped F1
-from 86.9% to 65.8%. The GT annotation philosophy is paper-level, not
-record-level.
-
-See `docetl_pipeline/extract_v2.yaml` for the experiment.
 
 ---
 
@@ -164,8 +155,7 @@ See `docetl_pipeline/extract_v2.yaml` for the experiment.
 │   └── failure_cases.py       ← 4-category disagreement dump
 ├── docetl_pipeline/
 │   ├── extract.yaml           ← v0 (15-line prompt)
-│   ├── extract_v1.yaml        ← v1 (120-line prompt with repo catalog) — final
-│   ├── extract_v2.yaml        ← v2 (v1 + data_role classification, falsified)
+│   ├── extract_v1.yaml        ← v1 (80-line prompt with repo catalog) — final
 │   ├── extract_rev_v0.yaml    ← v0 retargeted at REV corpus
 │   └── extract_rev_v1.yaml    ← v1 retargeted at REV corpus
 ├── data/
@@ -364,7 +354,7 @@ Selected highlights:
 3. **L2** (GT incompleteness). Sec. "Discovered Failure Modes" #3 above
    shows several "FPs" are real datasets the GT missed. Manual audit
    would raise both systems' precision.
-4. **L3** (asymmetric prompt effort). DocETL v1 has a hand-tuned 120-line
+4. **L3** (asymmetric prompt effort). DocETL v1 has a hand-tuned 80-line
    prompt + repo catalog; DataGatherer is run with stock few-shot
    templates. Equivalent prompt iteration on DG would likely close the
    v1 recall gap.
