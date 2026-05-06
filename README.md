@@ -28,12 +28,12 @@ pipeline architecture from model quality.
 
 ### DataRef-EXP (21 papers, 47 records, **N = 3 runs per system**, mean ± std)
 
-| System | Predictions | Loose Precision | Loose Recall | **Loose F1** | **Strict F1** | **Cost (USD)** |
-|---|---|---|---|---|---|---|
-| **DG-RTR** | 36.0 ± 1.7 | 95.4% ± 1.4 | 73.1% ± 2.5 | **82.7% ± 1.1** | 69.1% ± 4.3 | **$0.011** |
-| **DG-FDR** | 37.7 ± 2.9 | 93.3% ± 6.8 | 74.5% ± 0.0 | **82.7% ± 2.8** | 64.6% ± 3.1 | $0.621 |
-| **DocETL v0** | 37.3 ± 3.1 | 85.1% ± 5.3 | 67.4% ± 2.5 | **75.1% ± 1.9** | 56.2% ± 5.1 | $0.297 |
-| **DocETL v1** | 47.0 ± 2.0 | 80.8% ± 0.8 | 80.9% ± 4.3 | **80.8% ± 2.5** | 70.2% ± 2.8 | $0.306 |
+| System | Preds | Loose P | Loose R | **Loose F1** | Strict P | Strict R | **Strict F1** | **Cost (USD)** |
+|---|---|---|---|---|---|---|---|---|
+| **DG-RTR** | 36.0 ± 1.7 | 95.4% ± 1.4 | 73.1% ± 2.5 | **82.7% ± 1.1** | 79.9% ± 7.3 | 61.0% ± 2.5 | 69.1% ± 4.3 | **$0.011** |
+| **DG-FDR** | 37.7 ± 2.9 | 93.3% ± 6.8 | 74.5% ± 0.0 | **82.7% ± 2.8** | 72.9% ± 6.2 | 58.2% ± 1.2 | 64.6% ± 3.1 | $0.621 |
+| **DocETL v0** | 37.3 ± 3.1 | 85.1% ± 5.3 | 67.4% ± 2.5 | **75.1% ± 1.9** | 63.8% ± 8.5 | 50.4% ± 3.3 | 56.2% ± 5.1 | $0.297 |
+| **DocETL v1** | 47.0 ± 2.0 | 80.8% ± 0.8 | 80.9% ± 4.3 | **80.8% ± 2.5** | 70.2% ± 1.3 | 70.2% ± 4.3 | 70.2% ± 2.8 | $0.306 |
 
 On EXP, DG-RTR / DG-FDR / DocETL v1 are **statistically indistinguishable
 on Loose F1** (confidence intervals overlap). DG-RTR wins on cost (27×
@@ -43,11 +43,11 @@ below, and adopt Loose F1 as the primary comparison metric.
 
 ### DataRef-REV (1,242 papers, 1,883 records, N = 1)
 
-| System | Predictions | Loose Precision | Loose Recall | **Loose F1** | **Strict F1** | **Cost (USD)** |
-|---|---|---|---|---|---|---|
-| **DG-RTR** | 1,275 | 75.06% | 50.82% | **60.61%** | 53.32% | **$0.50** |
-| **DG-FDR** | 2,149 | **76.17%** | 86.94% | 81.20% | 74.06% | $32.47 |
-| **DocETL v1** | 2,612 | 71.13% | **98.67%** | **82.67%** ← highest F1 | **75.11%** ← highest F1 | $17.67 |
+| System | Preds | Loose P | Loose R | **Loose F1** | Strict P | Strict R | **Strict F1** | **Cost (USD)** |
+|---|---|---|---|---|---|---|---|---|
+| **DG-RTR** | 1,275 | 75.06% | 50.82% | **60.61%** | 66.04% | 44.72% | 53.32% | **$0.50** |
+| **DG-FDR** | 2,149 | **76.17%** | 86.94% | 81.20% | 69.47% | 79.29% | 74.06% | $32.47 |
+| **DocETL v1** | 2,612 | 71.13% | **98.67%** | **82.67%** ← highest | 64.62% | **89.64%** | **75.11%** ← highest | $17.67 |
 
 (DocETL v1 was *not* run on REV with v0; v0 was only used for prompt
 ablation on EXP.)
