@@ -28,24 +28,26 @@ pipeline architecture from model quality.
 
 ### DataRef-EXP (21 papers, 47 records, **N = 3 runs per system**, mean ± std)
 
-| System | Predictions | Loose Precision | Loose Recall | **Loose F1** | **Cost (USD)** |
-|---|---|---|---|---|---|
-| **DG-RTR** | 36.0 ± 1.7 | 95.4% ± 1.4 | 73.1% ± 2.5 | **82.7% ± 1.1** | **$0.011** |
-| **DG-FDR** | 37.7 ± 2.9 | 93.3% ± 6.8 | 74.5% ± 0.0 | **82.7% ± 2.8** | $0.621 |
-| **DocETL v0** | 37.3 ± 3.1 | 85.1% ± 5.3 | 67.4% ± 2.5 | **75.1% ± 1.9** | $0.297 |
-| **DocETL v1** | 47.0 ± 2.0 | 80.8% ± 0.8 | 80.9% ± 4.3 | **80.8% ± 2.5** | $0.306 |
+| System | Predictions | Loose Precision | Loose Recall | **Loose F1** | **Strict F1** | **Cost (USD)** |
+|---|---|---|---|---|---|---|
+| **DG-RTR** | 36.0 ± 1.7 | 95.4% ± 1.4 | 73.1% ± 2.5 | **82.7% ± 1.1** | 69.1% ± 4.3 | **$0.011** |
+| **DG-FDR** | 37.7 ± 2.9 | 93.3% ± 6.8 | 74.5% ± 0.0 | **82.7% ± 2.8** | 64.6% ± 3.1 | $0.621 |
+| **DocETL v0** | 37.3 ± 3.1 | 85.1% ± 5.3 | 67.4% ± 2.5 | **75.1% ± 1.9** | 56.2% ± 5.1 | $0.297 |
+| **DocETL v1** | 47.0 ± 2.0 | 80.8% ± 0.8 | 80.9% ± 4.3 | **80.8% ± 2.5** | 70.2% ± 2.8 | $0.306 |
 
 On EXP, DG-RTR / DG-FDR / DocETL v1 are **statistically indistinguishable
-on F1** (confidence intervals overlap). DG-RTR wins on cost (27× cheaper
-than DocETL v1, 54× cheaper than DG-FDR).
+on Loose F1** (confidence intervals overlap). DG-RTR wins on cost (27×
+cheaper than DocETL v1, 54× cheaper than DG-FDR). All four systems drop
+under Strict scoring; we explain why in the Evaluation Methodology section
+below, and adopt Loose F1 as the primary comparison metric.
 
 ### DataRef-REV (1,242 papers, 1,883 records, N = 1)
 
-| System | Predictions | Loose Precision | Loose Recall | **Loose F1** | **Cost (USD)** |
-|---|---|---|---|---|---|
-| **DG-RTR** | 1,275 | 75.06% | 50.82% | **60.61%** | **$0.50** |
-| **DG-FDR** | 2,149 | **76.17%** | 86.94% | 81.20% | $32.47 |
-| **DocETL v1** | 2,612 | 71.13% | **98.67%** | **82.67%** ← highest F1 | $17.67 |
+| System | Predictions | Loose Precision | Loose Recall | **Loose F1** | **Strict F1** | **Cost (USD)** |
+|---|---|---|---|---|---|---|
+| **DG-RTR** | 1,275 | 75.06% | 50.82% | **60.61%** | 53.32% | **$0.50** |
+| **DG-FDR** | 2,149 | **76.17%** | 86.94% | 81.20% | 74.06% | $32.47 |
+| **DocETL v1** | 2,612 | 71.13% | **98.67%** | **82.67%** ← highest F1 | **75.11%** ← highest F1 | $17.67 |
 
 (DocETL v1 was *not* run on REV with v0; v0 was only used for prompt
 ablation on EXP.)
@@ -343,18 +345,49 @@ so credit is given for matching by either accession or URL.
 canonicalization, e.g., `"GEO" / "Gene Expression Omnibus" / "NCBI GEO"`
 all → `GEO`) to match.
 
-**Loose** mode requires only the identifier or URL to match. We adopt
-loose F1 as the headline because:
-1. The strict-loose gap averages **+14.4 points** across our four
-   systems on EXP, almost entirely attributable to label-form noise
-   (e.g., `"PRIDE"` vs `"ProteomeXchange"` for the same `PXD` accession).
-2. The gap *varies by system* (+9.5 to +21 points), so strict
-   comparisons confound extraction quality with prompt-label conventions.
-3. Identifiers are routable on their own: `PXD*` resolves to
-   ProteomeXchange regardless of whether the system labelled the repo
-   correctly. This matches downstream user value.
+**Loose** mode requires only the identifier or URL to match.
 
-We report both modes; loose is primary.
+### Why Strict F1 drops, and why Loose is our primary metric
+
+Across all four systems, every strict miss we audited had the same shape:
+the system extracted the right `identifier`, but tagged it with a
+*different but equivalent* repository name from the one the GT used.
+In other words, the system found the right dataset, but used one of two
+interchangeable names for the host repository (e.g. `"PRIDE"` instead of
+`"ProteomeXchange"`). Strict scoring counts these as misses even though
+both names point to the same record. Concretely:
+
+| GT canonical | Predicted canonical | Cases (EXP) |
+|---|---|---|
+| `ProteomeXchange` | `PRIDE` | 14 (across all 4 systems) |
+| `PDB` | `DOI` / `Other` | 6 |
+| `SRA` | `www.ncbi.nlm.nih.gov` | 2 |
+| `dbGaP` | `www.ncbi.nlm.nih.gov` | 1 |
+
+**The PRIDE / ProteomeXchange case is dominant.** PRIDE is a founding
+member of the [ProteomeXchange](https://www.proteomexchange.org/)
+Consortium; PXD accession numbers live in a *common identifier space*
+shared across PRIDE, MassIVE, PeptideAtlas, and jPOST. A single PXD ID
+(e.g. `PXD047284`) resolves to the same data record from either the
+ProteomeXchange portal or the PRIDE archive. Treating `"PRIDE"` and
+`"ProteomeXchange"` as different repositories under Strict scoring
+charges the system a point for using one of two interchangeable labels.
+
+We adopt Loose F1 as the headline metric because:
+1. The strict-loose gap on EXP averages **+15.3 points** across our four
+   systems (range +10.6 to +18.9), and on REV averages **+7.3 points**
+   (range +7.1 to +7.6). Most of this gap is the label-equivalence noise
+   above, not extraction errors.
+2. The gap *varies by system*, so strict comparisons confound extraction
+   quality with prompt-label conventions.
+3. Identifiers are routable on their own: `PXD*` resolves to
+   ProteomeXchange regardless of whether the system labelled the
+   repository `PRIDE` or `ProteomeXchange`. This matches downstream user
+   value (a dataset search service only needs the accession).
+
+We report both modes; **Loose F1 is the primary comparison**, Strict F1
+is provided alongside as a sanity check (and the system ranking under
+Strict on REV is identical to the Loose ranking, with DocETL v1 highest).
 
 ---
 
