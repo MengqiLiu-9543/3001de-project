@@ -201,13 +201,29 @@ git clone https://github.com/MengqiLiu-9543/3001de-project.git
 cd 3001de-project
 ```
 
-### 2. Get the Kimi API key
+### 2. Get a Kimi API key
 
-We share a Kimi (Moonshot) account. **Ask Mengqi** for the `.env` file
-(WeChat / DM), drop it in the project root.
+The pipeline talks to Kimi through its OpenAI-compatible HTTP API, so
+all you need is a Kimi API key.
 
-If you want your own key, sign up at <https://platform.moonshot.cn>,
-copy `.env.example` to `.env`, paste your key.
+1. Sign up at <https://platform.moonshot.ai> and create an API key in
+   the dashboard.
+2. Copy the example env file and paste your key into it:
+
+   ```bash
+   cp .env.example .env
+   # then open .env and replace `your_kimi_key_here` with your real key
+   ```
+
+Estimated cost for the full EXP reproduction in Section 4 below is
+**~$1.25 USD** (a few cents per single-paper smoke test). REV reproduction
+in Section 6 is much more expensive (~$50 total) — we recommend running
+EXP only unless you have a specific reason to re-run REV.
+
+> **Why an `.env` file at all?** API keys are credentials — committing
+> them to a public repo would let anyone drain the account. Our
+> `.gitignore` excludes `.env`; only the `.env.example` template (no key)
+> is checked in.
 
 ### 3. Python environment
 
