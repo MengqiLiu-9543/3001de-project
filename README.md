@@ -14,8 +14,8 @@ papers, evaluating on **DataRef-EXP** (21 curated papers, 47 records) and
   - **FDR** (Full-Document Read): the entire paper is sent to the LLM.
 - **DocETL** — a general-purpose declarative LLM document-processing
   framework.
-  - **v0** baseline (15-line prompt).
-  - **v1** iterated prompt (80 lines + repository catalog + extraction
+  - **v0** baseline (27-line prompt).
+  - **v1** iterated prompt (78 lines + repository catalog + extraction
     rules).
 
 All four configurations use the **same LLM**: Kimi
@@ -156,8 +156,8 @@ v1's actual extraction quality.
 │   ├── compare.py             ← regenerate summary.md from system outputs
 │   └── failure_cases.py       ← 4-category disagreement dump
 ├── docetl_pipeline/
-│   ├── extract.yaml           ← v0 (15-line prompt)
-│   ├── extract_v1.yaml        ← v1 (80-line prompt with repo catalog) — final
+│   ├── extract.yaml           ← v0 (27-line prompt)
+│   ├── extract_v1.yaml        ← v1 (78-line prompt with repo catalog) — final
 │   ├── extract_rev_v0.yaml    ← v0 retargeted at REV corpus
 │   └── extract_rev_v1.yaml    ← v1 retargeted at REV corpus
 ├── data/
@@ -403,7 +403,7 @@ Selected highlights:
 3. **L2** (GT incompleteness). Sec. "Discovered Failure Modes" #3 above
    shows several "FPs" are real datasets the GT missed. Manual audit
    would raise both systems' precision.
-4. **L3** (asymmetric prompt effort). DocETL v1 has a hand-tuned 80-line
+4. **L3** (asymmetric prompt effort). DocETL v1 has a hand-tuned 78-line
    prompt + repo catalog; DataGatherer is run with stock few-shot
    templates. Equivalent prompt iteration on DG would likely close the
    v1 recall gap.
