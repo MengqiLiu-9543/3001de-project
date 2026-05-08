@@ -196,6 +196,14 @@ per-call cache).
 
 ## Reproduction
 
+> **Note:** the key must come from the .cn portal (platform.moonshot.cn)
+> specifically. The international portal at platform.moonshot.ai does not
+> expose the `kimi-k2-0905-preview` model used in this report, so an .ai
+> key would require selecting a different Kimi model (such as
+> `kimi-k2.5`) and editing the model name and temperature setting across
+> the YAML pipelines and wrapper scripts. A .cn key reproduces the README
+> flow without any code change.
+
 ### 1. Clone
 
 ```bash
