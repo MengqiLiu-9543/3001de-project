@@ -208,7 +208,7 @@ cd 3001de-project
 The pipeline talks to Kimi through its OpenAI-compatible HTTP API, so
 all you need is a Kimi API key.
 
-1. Sign up at <https://platform.moonshot.ai> and create an API key in
+1. Sign up at <https://platform.moonshot.cn> and create an API key in
    the dashboard.
 2. Copy the example env file and paste your key into it:
 
